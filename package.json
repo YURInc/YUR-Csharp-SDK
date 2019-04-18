@@ -1,0 +1,14 @@
+{
+  "name": "com.unity.package-4",
+  "displayName": "Package Number 4",
+  "version": "2.5.1",
+  "unity": "2018.1",
+  "description": "This package provides X, Y, and Z. \n\nTo find out more, click the \"View Documentation\" link.",
+  "keywords": [ "key X", "key Y", "key Z" ],
+  "category": "Controllers",
+  "dependencies": {
+    "com.unity.package-1": "1.0.0",
+    "com.unity.package-2": "2.0.0",
+    "com.unity.package-3": "3.0.0"
+  }
+}
