@@ -9,8 +9,9 @@ namespace YUR.SDK.Unity.UserManagement
         {
             YUR_Main.main.Last_Played_User = YUR_Main.main.User_Manager.CurrentUser.loginCredentials.LocalId;
             Login.status = Login.StatusType.Logged_Out;
-            Destroy(CurrentUser);
-            CurrentUser = gameObject.AddComponent<YUR_CurrentUser>();
+            Destroy(YUR_Users.CurrentUser);
+            YUR_Users.CurrentUser = new YUR_CurrentUser();
+            YUR_Users.CurrentUser = gameObject.AddComponent<YUR_CurrentUser>();
             Log_Out?.Invoke(reason);
         }
 
@@ -225,7 +226,7 @@ namespace YUR.SDK.Unity.UserManagement
         /// <returns></returns>
         private IEnumerator Create_New_Account_Email_Password(string email, string password, string displayName)
         {
-            YUR_Log.Log("Creating an account with Email and Password");
+            YUR_Log.Server_Log("Creating an account with Email and Password");
             string response;
             yield return response = Systems.Interops.User_AccountCreation.CreateAccount(email, password, displayName);
             if (response.StartsWith("--1"))
@@ -233,14 +234,12 @@ namespace YUR.SDK.Unity.UserManagement
                 Bad_Login?.Invoke("Account Creation Failed: " + response);
                 yield break;
             }
-            YUR_Log.Log("Account creation was successful, automatically logging in User and getting data");
+            YUR_Log.Server_Log("Account creation was successful, waiting for profile to build");
+
+            yield return new WaitForSeconds(3);
             Logging_In?.Invoke("Attempting to Login to account");
-            yield return CurrentUser = Utilities.YUR_Conversions.ConvertStringToObject<YUR_CurrentUser>(response);
-            YUR_Log.Log("Test");
-            YUR_Log.Log("ActiveUserAccount  : " + CurrentUser.loginCredentials.RefreshToken);
-            yield return StartCoroutine(Get_UserData());
-            yield return YUR_CurrentUser.Store_RefreshToken(CurrentUser.Data_Biometrics.Name, CurrentUser.Profile.PhotoURL, CurrentUser.loginCredentials.RefreshToken);
-            Successful_Login?.Invoke("Successfull Login!");
+
+            yield return StartCoroutine(Acquire_Access_Tokens(email, password));
             yield break;
         }
 
@@ -257,7 +256,6 @@ namespace YUR.SDK.Unity.UserManagement
                 YUR_Log.Server_Log("Retrieving Biometric Data with ID token: " + CurrentUser.loginCredentials.IDtoken);
                 string biodata = Systems.Interops.User_AccountAccess.Retrieve_BiometricData(CurrentUser.loginCredentials.IDtoken);
                 YUR_Log.Server_Log("Biometric Data: " + biodata);
-
                 yield return CurrentUser.Data_Biometrics = JsonUtility.FromJson<UserData.Biometrics>(biodata);
                 
                 YUR_Log.Server_Log("Biometric data acquired");
