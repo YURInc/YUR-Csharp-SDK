@@ -4,7 +4,7 @@
 [d]: #project
 **[GETTING STARTED][gt] | [AUTHOR][auth] | [SUPPORT][ps] | [YUR Discord](https://yur.chat)**
 
-This project produces the YUR.SDK.UNITY.dll found within YUR Asset Package in the Unity Store
+This project produces the YUR.SDK.UNITY.dll found within [YUR Asset Package](https://github.com/YURInc/YUR-Unity-Package/wiki)
 
 ## MOTIVATION
 This project allows access to YUR's API using YUR Native Plugin.
