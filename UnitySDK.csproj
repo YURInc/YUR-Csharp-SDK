@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="UserManagement\Login_Create_Logout.cs" />
     <Compile Include="Utilities\YUR_Account.cs" />
+    <Compile Include="Workouts\WorkoutController.cs" />
     <Compile Include="YUR\YUR_Main_Static.cs" />
     <None Include="TestFolders\OG_TestingClass.cs" />
     <Compile Include="UserManagement\User Manager Functions.cs" />
@@ -120,7 +121,7 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>copy "YUR.SDK.UNITY.dll" "Z:\Games\Oculus\Software\hyperbolic-magnetism-beat-saber\Beat Saber_Data\Managed"
-copy "YUR.SDK.UNITY.dll" "Z:\YUR\Repositories\YUR_UnitySDK\TestDLLUnity\Assets\YUR\Plugins"
-del "Z:\YUR\Repositories\YUR_UnitySDK\TestDLLUnity\Assets\YUR\Plugins\YUR.SDK.UNITY.dll.meta"</PostBuildEvent>
+copy "YUR.SDK.UNITY.dll" "Z:\YUR\Repositories\YUR_UnitySDK\YUR Unity Package Test\Assets\YUR\Plugins"
+del "Z:\YUR\Repositories\YUR_UnitySDK\YUR Unity Package Test\Assets\YUR\Plugins\YUR.SDK.UNITY.dll.meta"</PostBuildEvent>
   </PropertyGroup>
 </Project>
