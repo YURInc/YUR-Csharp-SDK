@@ -56,7 +56,7 @@ namespace YUR.SDK.Unity.Workouts
             this.Success += new Workout_Upload(this.SuccessFull_Upload);
             if (start)
             {
-                StartWorkout.Invoke();
+                StartingWorkout();
             }
         }
 

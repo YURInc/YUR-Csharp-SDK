@@ -21,6 +21,8 @@ namespace YUR.SDK.Unity
             YUR_Log.Log("Setup data, ready to store");
             var data = JsonUtility.ToJson(userInfo);
             File.WriteAllText(userFolderPath, data);
+
+            YUR_Main.main.UserList.Add(YUR_Main.main.User_Manager.CurrentUser.loginCredentials.LocalId);
             return true;
         }
 
@@ -30,9 +32,12 @@ namespace YUR.SDK.Unity
         /// <param name="USERID">Unique user Identifier</param>
         public static Local_User_Info_Reference Preview_User(string USERID)
         {
-            var userDataPath = Path.Combine(Application.persistentDataPath, YUR_Constants.USERS_FILEPATH);
-            var userFile = Path.Combine(userDataPath, USERID + ".json");
-            return JsonUtility.FromJson<Local_User_Info_Reference>(File.ReadAllText(userDataPath));
+            YUR_Log.Log("Previewing " + USERID);
+            var userDataPath = Utilities.YUR_Conversions.PathCombine(Application.persistentDataPath, YUR_Constants.USERS_FILEPATH);
+            YUR_Log.Log("User Data Path: " + userDataPath);
+            var userFile = Utilities.YUR_Conversions.PathCombine(userDataPath, USERID + ".json");
+            YUR_Log.Log("User Path: " + userFile);
+            return JsonUtility.FromJson<Local_User_Info_Reference>(File.ReadAllText(userFile));
 
         }
 

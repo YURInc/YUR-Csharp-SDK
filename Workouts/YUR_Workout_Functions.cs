@@ -34,7 +34,7 @@ namespace YUR.SDK.Unity.Workouts
         {
             if (!workout.workoutInProgress)
             {
-                YUR_Log.Error("There is not workout currently in progress to end!");
+                YUR_Log.Error("There is no workout currently in progress to end!");
                 yield break;
             }
             int Calories;
@@ -52,15 +52,17 @@ namespace YUR.SDK.Unity.Workouts
 
             EndWorkout?.Invoke();
             System.TimeSpan t;
+            long duration;
             yield return t = System.DateTime.UtcNow - new System.DateTime(1970, 1, 1);
-            yield return workout.End_Time = (long)t.TotalSeconds - workout.Time_Duration_Paused;
+            yield return workout.End_Time = (long)(t.TotalSeconds - workout.Time_Duration_Paused);
 
-            YUR_Main.main.User_Manager.CurrentUser.Data_Current_Game.Time_Played += workout.Start_Time - workout.End_Time;
-            YUR_Main.main.User_Manager.CurrentUser.Data_General_Calories.Time_played += workout.Start_Time - workout.End_Time;
+            yield return duration = (workout.End_Time - workout.Start_Time);
+            YUR_Main.main.User_Manager.CurrentUser.Data_Current_Game.Time_Played += duration;
+            YUR_Main.main.User_Manager.CurrentUser.Data_General_Calories.Time_played += duration;
 
-            yield return workout.Calories += (int)Calories - workout.Paused_Calories;
+            yield return workout.Calories += (int)(Calories - workout.Paused_Calories);
             yield return workout.Identifier = Identifier;
-            yield return StartCoroutine(workout.UploadWorkout());
+            StartCoroutine(workout.UploadWorkout());
             yield break;
 
         }
