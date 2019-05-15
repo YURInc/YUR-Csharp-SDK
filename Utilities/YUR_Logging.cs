@@ -26,11 +26,10 @@ namespace YUR.SDK.Unity
                 return;
 
             string log = "[ YUR | Log ] >> " + toLog;
-            if (Log_To_File)
+            if (Log_To_File && Application.platform != RuntimePlatform.Android)
             {
                 System.IO.Directory.CreateDirectory(Utilities.YUR_Conversions.PathCombine(UnityEngine.Application.dataPath, "../UserData/"));
                 System.IO.File.AppendAllText(Utilities.YUR_Conversions.PathCombine(UnityEngine.Application.dataPath, "../UserData/YUR_Log.txt"), log + Environment.NewLine);
-
             }
                 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -52,11 +51,10 @@ namespace YUR.SDK.Unity
                 return;
 
             string log = "[ YUR | Log ] || Server " + Login.Status + " || >> " + toLog;
-            if (Log_To_File)
+            if (Log_To_File && Application.platform != RuntimePlatform.Android)
             {
                 System.IO.Directory.CreateDirectory(Utilities.YUR_Conversions.PathCombine(UnityEngine.Application.dataPath, "../UserData/"));
                 System.IO.File.AppendAllText(Utilities.YUR_Conversions.PathCombine(UnityEngine.Application.dataPath, "../UserData/YUR_Log.txt"), log + Environment.NewLine);
-
             }
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.WriteLine(log);
@@ -74,12 +72,11 @@ namespace YUR.SDK.Unity
         {
             if (!Error_Logging)
                 return;
-            string log = "[ YUR | Log ] || ERROR || >> " + error;
-            if (Log_To_File)
+            string log = "<b>[ YUR | Log ] || ERROR || >></b> " + error;
+            if (Log_To_File && Application.platform != RuntimePlatform.Android)
             {
                 System.IO.Directory.CreateDirectory(Utilities.YUR_Conversions.PathCombine(UnityEngine.Application.dataPath, "../UserData/"));
                 System.IO.File.AppendAllText(Utilities.YUR_Conversions.PathCombine(UnityEngine.Application.dataPath, "../UserData/YUR_Log.txt"), log + Environment.NewLine);
-
             }
             Console.ForegroundColor = ConsoleColor.Black;
             Console.BackgroundColor = ConsoleColor.Red;

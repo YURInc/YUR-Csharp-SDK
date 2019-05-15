@@ -10,16 +10,27 @@ namespace YUR.SDK.Unity.Systems.Interops
     /// </summary>
     class CalorieTracking
     {
-        [DllImportAttribute("YUR", EntryPoint = "BioAdjust", CallingConvention = CallingConvention.StdCall)]
+#if UNITY_ANDROID && !UNITY_EDITOR
+    public const string libfile = "YUR_ARMv7";
+#else
+        public const string libfile = "YUR";
+#endif
+
+        [DllImportAttribute(libfile, EntryPoint = "BioAdjust", CallingConvention = CallingConvention.StdCall)]
         internal static extern float BioAdjust(int sex, float height_cm, float weight_kg, int age);
 
-        [DllImportAttribute("YUR", EntryPoint = "OnePassCalculation", CallingConvention = CallingConvention.StdCall)]
+        [DllImportAttribute(libfile, EntryPoint = "OnePassCalculation", CallingConvention = CallingConvention.StdCall)]
         internal static extern float OnePassCalculation(float hVelx,float hVely,float hVelz,float lVelx,float lVely,float lVelz,float rVelx,float rVely,float rVelz,float timeAccuracy,float Weight,float BioAdjust,bool Kilograms, float FixedUpdateFPS = 90);
     }
 
     class Workouts
     {
-        [DllImportAttribute("YUR", EntryPoint = "Upload_Workout", CallingConvention = CallingConvention.StdCall)]
+#if UNITY_ANDROID && !UNITY_EDITOR
+    public const string libfile = "YUR_ARMv7";
+#else
+        public const string libfile = "YUR";
+#endif
+        [DllImportAttribute(libfile, EntryPoint = "Upload_Workout", CallingConvention = CallingConvention.StdCall)]
         protected static extern IntPtr Upload_Workout([In, MarshalAs(UnmanagedType.LPStr)] string workout_json_string, string idToken);
         /// <summary>
         /// Upload recently completed workout to the users account
@@ -35,14 +46,19 @@ namespace YUR.SDK.Unity.Systems.Interops
 
     class User_AccountCreation
     {
-        [DllImportAttribute("YUR", EntryPoint = "Create_Account_Email_Password", CallingConvention = CallingConvention.StdCall)]
+#if UNITY_ANDROID && !UNITY_EDITOR
+    public const string libfile = "YUR_ARMv7";
+#else
+        public const string libfile = "YUR";
+#endif
+        [DllImportAttribute(libfile, EntryPoint = "Create_Account_Email_Password", CallingConvention = CallingConvention.StdCall)]
         protected static extern IntPtr Create_Account_Email_Password([In, MarshalAs(UnmanagedType.LPStr)] string email, [In, MarshalAs(UnmanagedType.LPStr)] string password, [In, MarshalAs(UnmanagedType.LPStr)] string displayName);
         internal static string CreateAccount(string email, string password, string displayName)
         {
             return Marshal.PtrToStringAnsi(Create_Account_Email_Password(email, password, displayName));
         }
 
-        [DllImportAttribute("YUR", EntryPoint = "Anonymous_Account_Creation", CallingConvention = CallingConvention.StdCall)]
+        [DllImportAttribute(libfile, EntryPoint = "Anonymous_Account_Creation", CallingConvention = CallingConvention.StdCall)]
         protected static extern IntPtr Anonymous_Account_Creation();
         internal static string CreateAnonymousAccount()
         {
@@ -52,9 +68,14 @@ namespace YUR.SDK.Unity.Systems.Interops
 
     public class User_AccountAuthorization
     {
+#if UNITY_ANDROID && !UNITY_EDITOR
+    public const string libfile = "YUR_ARMv7";
+#else
+        public const string libfile = "YUR";
+#endif
 
         /// TODO : Finish C++ code
-        [DllImportAttribute("YUR", EntryPoint = "Get_IDToken", CallingConvention = CallingConvention.StdCall)]
+        [DllImportAttribute(libfile, EntryPoint = "Get_IDToken", CallingConvention = CallingConvention.StdCall)]
         public static extern IntPtr Get_IDToken([In, MarshalAs(UnmanagedType.LPStr)] string refreshToken);
         internal static string Retrieve_IDToken(string refreshToken)
         {
@@ -62,7 +83,7 @@ namespace YUR.SDK.Unity.Systems.Interops
             return Marshal.PtrToStringAnsi(Get_IDToken(refreshToken));
         }
 
-        [DllImportAttribute("YUR", EntryPoint = "LoginYURUser", CallingConvention = CallingConvention.StdCall)]
+        [DllImportAttribute(libfile, EntryPoint = "LoginYURUser", CallingConvention = CallingConvention.StdCall)]
         protected static extern IntPtr LoginYURUser([In, MarshalAs(UnmanagedType.LPStr)] string email, [In, MarshalAs(UnmanagedType.LPStr)] string password);
         /// <summary>
         /// Get the Tokens necessary for all other User Account access actions
@@ -79,7 +100,12 @@ namespace YUR.SDK.Unity.Systems.Interops
 
     class User_AccountAccess
     {
-        [DllImportAttribute("YUR", EntryPoint = "Get_BiometricData", CallingConvention = CallingConvention.StdCall)]
+#if UNITY_ANDROID && !UNITY_EDITOR
+    public const string libfile = "YUR_ARMv7";
+#else
+        public const string libfile = "YUR";
+#endif
+        [DllImportAttribute(libfile, EntryPoint = "Get_BiometricData", CallingConvention = CallingConvention.StdCall)]
         protected static extern IntPtr Get_BiometricData([In, MarshalAs(UnmanagedType.LPStr)] string authorization);
         /// <summary>
         /// Get the Biometric Data for the passed idToken user
@@ -91,7 +117,7 @@ namespace YUR.SDK.Unity.Systems.Interops
             return Marshal.PtrToStringAnsi(Get_BiometricData(idToken));
         }
 
-        [DllImportAttribute("YUR", EntryPoint = "Get_GeneralCalorieData", CallingConvention = CallingConvention.StdCall)]
+        [DllImportAttribute(libfile, EntryPoint = "Get_GeneralCalorieData", CallingConvention = CallingConvention.StdCall)]
         protected static extern IntPtr Get_GeneralCalorieData([In, MarshalAs(UnmanagedType.LPStr)] string authorization);
         /// <summary>
         /// Get the General Calorie Data for the passed idToken user
@@ -103,7 +129,7 @@ namespace YUR.SDK.Unity.Systems.Interops
             return Marshal.PtrToStringAnsi(Get_GeneralCalorieData(idToken));
         }
 
-        [DllImportAttribute("YUR", EntryPoint = "Get_GameData", CallingConvention = CallingConvention.StdCall)]
+        [DllImportAttribute(libfile, EntryPoint = "Get_GameData", CallingConvention = CallingConvention.StdCall)]
         protected static extern IntPtr Get_GameData([In, MarshalAs(UnmanagedType.LPStr)] string gameID, [In, MarshalAs(UnmanagedType.LPStr)] string authorization);
         /// <summary>
         /// Get the Game Data for the passed idToken user
@@ -116,7 +142,7 @@ namespace YUR.SDK.Unity.Systems.Interops
             return Marshal.PtrToStringAnsi(Get_GameData(JSON, idToken));
         }
 
-        [DllImportAttribute("YUR", EntryPoint = "Set_BiometricData", CallingConvention = CallingConvention.StdCall)]
+        [DllImportAttribute(libfile, EntryPoint = "Set_BiometricData", CallingConvention = CallingConvention.StdCall)]
         protected static extern IntPtr Set_BiometricData([In, MarshalAs(UnmanagedType.LPStr)] string json, [In, MarshalAs(UnmanagedType.LPStr)] string authorization);
         /// <summary>
         /// Update the Biometric Data for the passed idToken user
@@ -140,7 +166,7 @@ namespace YUR.SDK.Unity.Systems.Interops
             return Biometric_Response;
         }
 
-        [DllImportAttribute("YUR", EntryPoint = "Set_GeneralCalorieData", CallingConvention = CallingConvention.StdCall)]
+        [DllImportAttribute(libfile, EntryPoint = "Set_GeneralCalorieData", CallingConvention = CallingConvention.StdCall)]
         protected static extern IntPtr Set_GeneralCalorieData([In, MarshalAs(UnmanagedType.LPStr)] string json, [In, MarshalAs(UnmanagedType.LPStr)] string authorization);
         /// <summary>
         /// Update General Calorie Data for the passed idToken user
@@ -164,7 +190,7 @@ namespace YUR.SDK.Unity.Systems.Interops
             return General_Calorie_Response;
         }
 
-        [DllImportAttribute("YUR", EntryPoint = "Set_GameData", CallingConvention = CallingConvention.StdCall)]
+        [DllImportAttribute(libfile, EntryPoint = "Set_GameData", CallingConvention = CallingConvention.StdCall)]
         protected static extern IntPtr Set_GameData([In, MarshalAs(UnmanagedType.LPStr)] string json, [In, MarshalAs(UnmanagedType.LPStr)] string authorization);
         /// <summary>
         /// Update the Game Data for the passed idToken user
