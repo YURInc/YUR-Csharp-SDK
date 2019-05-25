@@ -6,6 +6,8 @@
 
 This project produces the YUR.SDK.UNITY.dll found within [YUR Asset Package](https://github.com/YURInc/YUR-Unity-Package/wiki)
 
+**The most recent version of the plugin can be built from master or acquired from the releases within the [Unity Asset Package](https://github.com/YURInc/YUR-Unity-Package/releases)**
+
 ## MOTIVATION
 This project allows access to YUR's API using YUR Native Plugin.
 
