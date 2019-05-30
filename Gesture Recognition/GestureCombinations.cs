@@ -143,6 +143,11 @@ using System.Text;
 
 public class GestureCombinations {
 
+//#if UNITY_ANDROID && !UNITY_EDITOR
+//    public const string libfile = "gesture_recognition";
+//#else
+//    public const string libfile = "gesture_recognition";
+//#endif
     //                                                          ________________________________
     //_________________________________________________________/  ignoreHeadRotationLeftRight
     /// <summary>
@@ -1073,11 +1078,7 @@ public class GestureCombinations {
     public delegate IntPtr MetadataCreatorFunction();
     public delegate void TrainingCallbackFunction(double performace, IntPtr metadata);
 
-#if UNITY_ANDROID && !UNITY_EDITOR
     public const string libfile = "gesture_recognition";
-#else
-    public const string libfile = "GestureRecognition_Win_x86_64";
-#endif
 
     [DllImport(libfile, EntryPoint = "GestureCombinations_create", CallingConvention = CallingConvention.Cdecl)]
     public static extern IntPtr GestureCombinations_create(int number_of_parts); //!< Create new instance.

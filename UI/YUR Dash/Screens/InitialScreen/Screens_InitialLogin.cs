@@ -7,6 +7,7 @@ namespace YUR.SDK.Unity.UI
     {
         public static Screens_InitialLogin inst;
 
+        public Button Login;
         public Button SwitchUsers;
         public Button CreateAccount;
 
@@ -38,6 +39,8 @@ namespace YUR.SDK.Unity.UI
                 {
                     SwitchUsers.gameObject.SetActive(false);
                 }
+
+
             }
         }
 
@@ -61,6 +64,11 @@ namespace YUR.SDK.Unity.UI
             CreateAccount.onClick.AddListener(delegate
             {
                 YURScreenCoordinator.ScreenCoordinator.PresentNewScreen(Screens_CreateAccount.instance, false);
+            });
+
+            Login.onClick.AddListener(delegate
+            {
+                YURScreenCoordinator.ScreenCoordinator.PresentNewScreen(Screens_LoginEmailPassword.inst);
             });
             setup = true;
         }

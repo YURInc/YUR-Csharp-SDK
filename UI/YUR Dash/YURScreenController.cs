@@ -30,24 +30,26 @@ namespace YUR.SDK.Unity.UI
 
         public IEnumerator LoadSetupCloseBackButtons()
         {
-            AssetBundle yurBundle;
-            string URI = "file:///" + Application.dataPath + "/AssetBundles/" + YUR.Yur.assetBundleName;
-            UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(URI, 0);
-            yield return request.SendWebRequest();
-            if (request.error != null)
+            if (YUR.Yur.YURAssetBundle == null)
             {
-                yurBundle = null;
-                yield break;
-            }
-            else
-            {
-                YUR_Log.Log("Local asset bundle found!");
-                yield return yurBundle = DownloadHandlerAssetBundle.GetContent(request);
+                string URI = "file:///" + Application.dataPath + "/AssetBundles/" + YUR.Yur.assetBundleName;
+                UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(URI, 0);
+                yield return request.SendWebRequest();
+                if (request.error != null)
+                {
+                    
+                    yield break;
+                }
+                else
+                {
+                    YUR_Log.Log("Local asset bundle found!");
+                    yield return YUR.Yur.YURAssetBundle = DownloadHandlerAssetBundle.GetContent(request);
 
+                }
             }
 
-            var temppp = yurBundle.LoadAsset<GameObject>("YUR Back Button");
-            BackButton = Instantiate(temppp, gameObject.transform);
+            var temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("YUR Back Button");
+            yield return BackButton = Instantiate(temppp, gameObject.transform);
             // BackButton = (GameObject)Instantiate(Resources.Load("YUR Back Button"), gameObject.transform);
             BackButton.GetComponent<Button>().onClick.AddListener(delegate
             {
@@ -57,8 +59,8 @@ namespace YUR.SDK.Unity.UI
             });
 
 
-            var temppp2 = yurBundle.LoadAsset<GameObject>("YUR Close Button");
-            BackButton = Instantiate(temppp, gameObject.transform);
+            temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("YUR Close Button");
+            yield return CloseButton = Instantiate(temppp, gameObject.transform);
 
             // CloseButton = (GameObject)Instantiate(Resources.Load("YUR Close Button"), gameObject.transform);
 

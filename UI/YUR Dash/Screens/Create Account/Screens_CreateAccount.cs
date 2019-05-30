@@ -18,6 +18,8 @@ namespace YUR.SDK.Unity.UI
         public Button Accept;
         public Button Decline;
         public Scrollbar scrollbar;
+        public Button ScrollUp;
+        public Button ScrollDown;
 
     // TODO
     // Scrollbar end and reset

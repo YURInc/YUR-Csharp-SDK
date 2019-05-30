@@ -102,9 +102,6 @@
     <Reference Include="Unity.TextMeshPro">
       <HintPath>..\..\..\Game Development\Unity\Projects\BaseWindowsProject - For Reference\BaseWindowsProject - For References\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor">
-      <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEditor.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
@@ -358,12 +355,8 @@
     <Compile Include="Gesture Recognition\GestureRecognition.cs" />
     <Compile Include="Gesture Recognition\YUR_GestureRecognition.cs" />
     <Compile Include="UI\Calories.cs" />
-    <Compile Include="UI\VR Interaction\Editor\CardDataEditor.cs" />
-    <Compile Include="UI\VR Interaction\Editor\OptionDataEditor.cs" />
     <Compile Include="UI\VR Interaction\Effects\ImageHoverOutline.cs" />
     <Compile Include="UI\VR Interaction\Effects\TextHoverScale.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\Editor\GazeInputModuleEditor.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\Editor\LaserInputModuleEditor.cs" />
     <Compile Include="UI\VR Interaction\InputModule\GazeInputModule.cs" />
     <Compile Include="UI\VR Interaction\InputModule\LaserInputModule.cs" />
     <Compile Include="UI\VR Interaction\InputModule\MouseInputModule.cs" />
@@ -458,7 +451,10 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UI\VR Interaction\Editor\" />
+    <Folder Include="UI\VR Interaction\InputModule\Editor\" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>

@@ -95,19 +95,19 @@ namespace VRUiKits.Utils
 #endif
 
         /********** Gaze ***********/
-        GameObject currentTarget;
+        public GameObject currentTarget;
         float currentClickTime;
 
         /*********************/
         public static LaserInputModule instance { get { return _instance; } set { _instance = value; } }
         private static LaserInputModule _instance = null;
-        Camera helperCamera;
+        public Camera helperCamera;
         public UIKitPointer controller;
 
         // Support variables
         public bool triggerPressed = false;
         public bool triggerPressedLastFrame = false;
-        PointerEventData pointerEventData;
+        public PointerEventData pointerEventData;
         public Vector3 lastRaycastHitPoint;
         public float pressedDistance;  // Distance the laser travelled while pressed.
 
@@ -287,15 +287,15 @@ namespace VRUiKits.Utils
 
         public void ProcessLaserPointer()
         {
+           
             SendUpdateEventToSelectedObject();
-
+           
             PointerEventData eventData = GetPointerEventData();
             ProcessPress(eventData);
             ProcessMove(eventData);
             if (triggerPressed)
             {
                 ProcessDrag(eventData);
-
                 if (!Mathf.Approximately(eventData.scrollDelta.sqrMagnitude, 0.0f))
                 {
                     var scrollHandler = ExecuteEvents.GetEventHandler<IScrollHandler>(eventData.pointerCurrentRaycast.gameObject);

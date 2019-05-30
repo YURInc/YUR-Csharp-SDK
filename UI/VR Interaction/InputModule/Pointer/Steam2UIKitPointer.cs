@@ -8,7 +8,7 @@ namespace VRUiKits.Utils
 {
     public class Steam2UIKitPointer : UIKitPointer
     {
-        Pointer temp; // Used to detect if the pointer has changed in the input module.
+        //Pointer temp; // Used to detect if the pointer has changed in the input module.
 
         void Start()
         {

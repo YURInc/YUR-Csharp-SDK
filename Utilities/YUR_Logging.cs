@@ -36,7 +36,12 @@ namespace YUR.SDK.Unity
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine(log);
             if (Editor_Debugging)
-                Debug.Log(log, ObjectReference);
+            {
+                if (ObjectReference != null)
+                    Debug.Log(log, ObjectReference);
+                else
+                    Debug.Log(log);
+            }
             Console.ResetColor();
 
         }
@@ -61,7 +66,12 @@ namespace YUR.SDK.Unity
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.WriteLine(log);
             if (Editor_Debugging)
-                Debug.Log(log, ObjectReference);
+            {
+                if (ObjectReference != null)
+                    Debug.Log(log, ObjectReference);
+                else
+                    Debug.Log(log);
+            }
             Console.ResetColor();
         }
 
@@ -82,7 +92,13 @@ namespace YUR.SDK.Unity
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine(log);
             if (Editor_Debugging)
-                Debug.LogWarning(log, ObjectReference);
+            {
+                if (ObjectReference != null)
+                    Debug.LogWarning(log, ObjectReference);
+                else
+                    Debug.LogWarning(log);
+            }
+                
             Console.ResetColor();
 
         }
@@ -106,7 +122,12 @@ namespace YUR.SDK.Unity
             Console.BackgroundColor = ConsoleColor.Red;
             Console.WriteLine(log);
             if (Editor_Debugging)
-                Debug.Log(log, ObjectReference);
+            {
+                if (ObjectReference != null)
+                    Debug.LogError(log, ObjectReference);
+                else
+                    Debug.LogError(log);
+            }
             Console.ResetColor();
         }
     }

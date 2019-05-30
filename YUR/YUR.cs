@@ -28,6 +28,15 @@ namespace YUR.SDK.Unity
           
             /// Load General Settings ///
             var Settings = Resources.Load("YURGeneralSettings") as YURSettingsScriptableObject;
+            AutoUpdate = Settings.AutomaticUpdates;
+
+
+            /// Setup all AOT variables inside here
+            if(Application.platform == RuntimePlatform.Android)
+            {
+                AutoUpdate = false;
+            }
+
             _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             YUR_Log.Log("Starting to get YUR Object and startup system");
             StartCoroutine(InstantiateYURObjects());
@@ -149,37 +158,48 @@ namespace YUR.SDK.Unity
     public partial class YUR : MonoBehaviour
     {
         [HideInInspector]
-        public string Version = System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion;
+        public bool AutoUpdate;
+        [HideInInspector]
+        public string Version = (Application.platform == RuntimePlatform.Android ? "-.-.-" : System.Diagnostics.FileVersionInfo.GetVersionInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FileVersion);
         [HideInInspector]
         public string assetBundleName = "yur.yur";
         [HideInInspector]
+        public AssetBundle YURAssetBundle;
+        [HideInInspector]
         public const string yursdkname = "YUR.SDK.Unity.dll";
         [HideInInspector]
-        public string GitHubRepoDownloadURI = "https://github.com/YURInc/YUR-Unity-Package/releases/download/";
+        public const string GitHubRepoDownloadURI = "https://github.com/YURInc/YUR-Unity-Package/releases/download/";
         [HideInInspector]
         public string GitHubRepoReleaseTagsURI = "https://api.github.com/repos/YURInc/YUR-Unity-Package/tags";
         [HideInInspector]
-        public string AssetBundlesLocalFilePath = "file:///" + Application.dataPath + "/AssetBundles/" + (Application.platform == RuntimePlatform.Android ? "Android_AssetBundles/" : "StandaloneWindows64");
+        public string AssetBundlesLocalFilePath;
 
         IEnumerator InstantiateYURObjects()
         {
+            yield return AssetBundlesLocalFilePath = (Application.platform == RuntimePlatform.Android ? Application.streamingAssetsPath + "/": ("file:///" + Application.dataPath + "/AssetBundles/Standalone_AssetBundles/"));
             /// Get Local Version, make sure updated
             /// 
             YUR_Log.Log("Getting local asset bundle");
-            string URI = AssetBundlesLocalFilePath + assetBundleName;
+
+            string URI;
+            yield return URI = AssetBundlesLocalFilePath + assetBundleName;
+            YUR_Log.Log("Local Asset bundle path: " + URI);
+            YUR_Log.Log("Streaming assets path: " + Application.streamingAssetsPath);
             UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(URI, 0);
             yield return request.SendWebRequest();
             if (request.error != null)
             {
-                Debug.LogWarning("YUR was unable to locate the necessary Asset Bundles locally, acquiring latest version from GitHub...");
+
+                YUR_Log.Warning("YUR was unable to locate the necessary Asset Bundles locally, acquiring latest version from GitHub...");
+                YUR_Log.Log("Request Error Information: " + request.error);
                 StartCoroutine(DownloadYURAssetBundle("latest",false));
                 DownloadYURSDK("latest");
             }
             else
             {
                 YUR_Log.Log("Local asset bundle found!");
-                AssetBundle yurBundle = DownloadHandlerAssetBundle.GetContent(request);
-                var dashPre = yurBundle.LoadAsset<GameObject>("YUR");
+                YURAssetBundle = DownloadHandlerAssetBundle.GetContent(request);
+                var dashPre = YURAssetBundle.LoadAsset<GameObject>("YUR");
                 YUR_Dash = Instantiate(dashPre);
                 YUR_Log.Log("YUR Dash has been instantiated");
 
@@ -240,7 +260,12 @@ namespace YUR.SDK.Unity
                                 }
                                 else
                                 {
-                                    Debug.LogWarning("A more recent, quick fix version of YUR is available to download. Download and update will happen in the background. YUR will be disabled while updating");
+                                    YUR_Log.Warning("A more recent, quick fix version of YUR is available to download.");
+                                    if(!AutoUpdate)
+                                    {
+                                        YUR_Log.Warning("Updates are disabled, please manually update YUR or enable automatic updates");
+                                        yield break;
+                                    }
                                     yield return StartCoroutine(DownloadYURAssetBundle(Tags[0].name, true));
                                     StartCoroutine(DownloadYURSDK(Tags[0].name));
                                 }
@@ -253,7 +278,12 @@ namespace YUR.SDK.Unity
                         }
                         else
                         {
-                            Debug.LogWarning("A more recent, minor version of YUR is available to download. Download and update will happen in the background. YUR will be disabled while updating");
+                            YUR_Log.Warning("A more recent, minor version of YUR is available to download. Download and update will happen in the background. YUR will be disabled while updating");
+                            if (!AutoUpdate)
+                            {
+                                YUR_Log.Warning("Updates are disabled, please manually update YUR or enable automatic updates");
+                                yield break;
+                            }
                             yield return StartCoroutine(DownloadYURAssetBundle(Tags[0].name,true));
                             StartCoroutine(DownloadYURSDK(Tags[0].name));
                         }
@@ -266,7 +296,12 @@ namespace YUR.SDK.Unity
                 }
                 else
                 {
-                    Debug.LogWarning("A more recent, major version of YUR is available to download. Download and update will happen in the background. YUR will be disabled while updating");
+                    YUR_Log.Warning("A more recent, major version of YUR is available to download. Download and update will happen in the background. YUR will be disabled while updating");
+                    if (!AutoUpdate)
+                    {
+                        YUR_Log.Warning("Updates are disabled, please manually update YUR or enable automatic updates");
+                        yield break;
+                    }
                     yield return StartCoroutine(DownloadYURAssetBundle(Tags[0].name, true));
                     StartCoroutine(DownloadYURSDK(Tags[0].name));
                 }
@@ -299,8 +334,47 @@ namespace YUR.SDK.Unity
             }
         }
 
+        IEnumerator UpdateAssetPackage(string package_version)
+        {
+            string URI = GitHubRepoDownloadURI + package_version + "/YUR" + package_version + ".unitypackage";
+
+            UnityEngine.Networking.UnityWebRequest request = new UnityEngine.Networking.UnityWebRequest(URI);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            yield return request.SendWebRequest();
+            if (request.error != null)
+            {
+                YUR_Log.Warning("YUR was unable to get the necessary asset bundle from the server. Error: " + request.error);
+            }
+            else
+            {
+                YUR_Log.Log("YUR most recent asset package downloaded successfully");
+                bool AssetsDownloaded;
+                yield return AssetsDownloaded = SaveDownloadedPackage(request, "YUR" + package_version + ".unitypackage");
+
+                if (AssetsDownloaded)
+                {
+                    YUR_Log.Log("Successfully downloaded package! Please go into YUR Setup Window to finish the update!", this);
+                }
+                else
+                {
+                    YUR_Log.Warning("The package could not be saved, please visit https://yur.chat for assistance");
+                }
+            }
+
+        }
+
         IEnumerator DownloadYURSDK(string version_to_download)
         {
+            if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.OSXEditor)
+            {
+                YUR_Log.Warning("Will not automatically update inside editor, Asset Package should be acquired automatically during asset bundle install");
+                yield break;
+            }
+            if(!AutoUpdate)
+            {
+                YUR_Log.Warning("Automatic Updating is disabled", this);
+                yield break;
+            }
             YUR_Log.Log("Starting to retrieve SDK DLL from github repository");
             string URI = GitHubRepoDownloadURI + version_to_download + "/" +  yursdkname;
 
@@ -335,10 +409,20 @@ namespace YUR.SDK.Unity
         /// <returns></returns>
         IEnumerator DownloadYURAssetBundle(string version_to_download, bool priorInstalled)
         {
-            if(version_to_download == "latest")
+            if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.OSXEditor)
             {
-                // Add support for using latest, for now tags are used.
+                yield return StartCoroutine(UpdateAssetPackage(version_to_download));
+                yield break;
             }
+            if (!AutoUpdate)
+            {
+                YUR_Log.Warning("Automatic Updating is disabled", this);
+                yield break;
+            }
+            //if (version_to_download == "latest")
+            //{
+            //    // Add support for using latest, for now tags are used.
+            //}
 
             YUR_Log.Log("Downloading asset bundle");
             string URI = GitHubRepoDownloadURI + version_to_download + "/" + assetBundleName;
@@ -421,6 +505,37 @@ namespace YUR.SDK.Unity
                 }
 
                 pathLOCAL += assetBundleName;
+
+                // Initialize the byte string
+                byte[] bytes = objSERVER.downloadHandler.data;
+
+                // Creates a new file, writes the specified byte array to the file, and then closes the file. 
+                // If the target file already exists, it is overwritten.
+                File.WriteAllBytes(pathLOCAL, bytes);
+                YUR_Log.Log("Finished saving asset");
+                return true;
+            }
+            catch (Exception e)
+            {
+                YUR_Log.Error("------------------ YUR ERROR ------------------ \n" + e);
+                return false;
+            }
+
+        }
+
+        public bool SaveDownloadedPackage(UnityWebRequest objSERVER, string version_name)
+        {
+            YUR_Log.Log("Saving YUR asset bundle for next use");
+            try
+            {
+                string pathLOCAL = "file:///" + Application.dataPath + "/YUR/";
+                // Create the directory if it doesn't already exist
+                if (!Directory.Exists(pathLOCAL))
+                {
+                    Directory.CreateDirectory(pathLOCAL);
+                }
+
+                pathLOCAL += version_name;
 
                 // Initialize the byte string
                 byte[] bytes = objSERVER.downloadHandler.data;

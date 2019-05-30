@@ -33,7 +33,7 @@ namespace YUR.SDK.Unity.UI
             {
                 return;
             }
-            Debug.Log("Activating YUR Dash");
+            YUR_Log.Log("Activating YUR Dash");
             isActivated = true;
             if (Login.Status == Login.StatusType.Logging_In) // True, Subscribe to Successful Login
             {
@@ -52,7 +52,8 @@ namespace YUR.SDK.Unity.UI
             {
                 YURScreenCoordinator.ScreenCoordinator.Hierarchy.Add(YURScreenCoordinator.ScreenCoordinator.InitialMenu);
             }
-            _presentYURGUI(); // Setup and show the Dash
+
+            StartCoroutine(_presentYURGUI()); // Setup and show the Dash
         }
 
         /// <summary>
@@ -82,7 +83,7 @@ namespace YUR.SDK.Unity.UI
             try
             {
                 Camera = YUR.Yur.Camera;
-                Debug.Log("Camera name: " + Camera.name);
+                YUR_Log.Log("Camera name: " + Camera.name);
             }
             catch(System.Exception e)
             {
@@ -136,20 +137,23 @@ namespace YUR.SDK.Unity.UI
             else
                 children = Camera.transform.childCount;
 
-            AssetBundle yurBundle;
-            string URI = "file:///" + Application.dataPath + "/AssetBundles/" + YUR.Yur.assetBundleName;
-            UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(URI, 0);
-            yield return request.SendWebRequest();
-            if (request.error != null)
+            if (YUR.Yur.YURAssetBundle == null)
             {
-                yurBundle = null;
-                yield break;
-            }
-            else
-            {
-                YUR_Log.Log("Local asset bundle found!");
-                yield return yurBundle = DownloadHandlerAssetBundle.GetContent(request);
 
+                
+                string URI = "file:///" + Application.dataPath + "/AssetBundles/" + YUR.Yur.assetBundleName;
+                UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(URI, 0);
+                yield return request.SendWebRequest();
+                if (request.error != null)
+                {
+                    yield break;
+                }
+                else
+                {
+                    YUR_Log.Log("Local asset bundle found!");
+                    yield return YUR.Yur.YURAssetBundle = DownloadHandlerAssetBundle.GetContent(request);
+
+                }
             }
 
             if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.OCULUS) /// If the platform is defined as being Oculus, use the Camera object to locate the Controllers
@@ -160,7 +164,7 @@ namespace YUR.SDK.Unity.UI
                     if (YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name.Contains("RightHand"))
                     {
 
-                        var temppp = yurBundle.LoadAsset<GameObject>("OculusUIKitPointer");
+                        var temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("OculusUIKitPointer");
                         UIPointerKit = Instantiate(temppp, YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.transform);
                         //UIPointerKit = (GameObject)Instantiate(Resources.Load("OculusUIKitPointer"), YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.transform);
                         instantiatedUIKit = true;
@@ -170,7 +174,7 @@ namespace YUR.SDK.Unity.UI
                     }
                     else if (YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name.Contains("LeftHand"))
                     {
-                        var temppp = yurBundle.LoadAsset<GameObject>("OculusUIKitPointer");
+                        var temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("OculusUIKitPointer");
                         UIPointerKit = Instantiate(temppp, YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.transform);
                         //UIPointerKit = (GameObject)Instantiate(Resources.Load("OculusUIKitPointer"), YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.transform);
                         instantiatedUIKit = true;
@@ -188,7 +192,7 @@ namespace YUR.SDK.Unity.UI
                     Debug.Log("Found Controller: " + Camera.transform.parent.GetChild(i).gameObject.name);
                     if (Camera.transform.parent.GetChild(i).gameObject.name.Contains("right"))
                     {
-                        var temppp = yurBundle.LoadAsset<GameObject>("Steam2UIKitPointer");
+                        var temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("Steam2UIKitPointer");
                         UIPointerKit = Instantiate(temppp, YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.transform);
                         // UIPointerKit = (GameObject)Instantiate(Resources.Load("Steam2UIKitPointer"), Camera.transform.parent.GetChild(i).gameObject.transform);
                         instantiatedUIKit = true;
@@ -198,7 +202,7 @@ namespace YUR.SDK.Unity.UI
                     }
                     if (Camera.transform.parent.GetChild(i).gameObject.name.Contains("left"))
                     {
-                        var temppp = yurBundle.LoadAsset<GameObject>("Steam2UIKitPointer");
+                        var temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("Steam2UIKitPointer");
                         UIPointerKit = Instantiate(temppp, YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.transform);
                         // UIPointerKit = (GameObject)Instantiate(Resources.Load("Steam2UIKitPointer"), Camera.transform.parent.GetChild(i).gameObject.transform);
                         instantiatedUIKit = true;
@@ -249,7 +253,7 @@ namespace YUR.SDK.Unity.UI
 
             if (!instantiatedUIKit) // If UIPointerKit not previously instantiated
             {
-                var temppp = yurBundle.LoadAsset<GameObject>("UIKitPointer");
+                var temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("UIKitPointer");
                 UIPointerKit = Instantiate(temppp);
                 //UIPointerKit = (GameObject)Instantiate(Resources.Load("UIKitPointer"));
             }

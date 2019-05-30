@@ -67,7 +67,7 @@ namespace VRUiKits.Utils
 
         public void CheckTriggerStatus()
         {
-            Debug.Log("<b>Check trigger status: </b>");
+            //Debug.Log("<b>Check trigger status: </b>");
             /*** Define trigger key to fire events for different platforms ***/
             activeController = OVRInput.GetActiveController();
             // Check if Oculus Rift is being used, then we need to check if button is pressed on target pointer.
@@ -77,18 +77,17 @@ namespace VRUiKits.Utils
                 if (pointer == Pointer.LeftHand)
                 {
                     triggerPressed = OVRInput.Get(trigger, OVRInput.Controller.LTouch);
-                    Debug.Log("Trigger pressed Left? : " + triggerPressed);
+                    //Debug.Log("Trigger pressed Left? : " + triggerPressed);
                 }
                 else if (pointer == Pointer.RightHand)
                 {
                     triggerPressed = OVRInput.Get(trigger, OVRInput.Controller.RTouch);
-                    Debug.Log("Trigger pressed right? : " + triggerPressed);
+                    //Debug.Log("Trigger pressed right? : " + triggerPressed);
                 }
             }
             else
             {
-                triggerPressed = OVRInput.Get(trigger);
-                Debug.Log("Trigger pressed else? : " + triggerPressed);
+                //triggerPressed = OVRInput.Get(trigger);
             }
         }
 
