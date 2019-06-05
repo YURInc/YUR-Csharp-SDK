@@ -48,7 +48,7 @@ namespace YUR.SDK.Unity.UI
             gameObj.SetActive(false);
 
             TextMeshProUGUI textMesh = gameObj.AddComponent<TextMeshProUGUI>();
-            textMesh.font = TMP_FontAsset.defaultFontAsset;
+            //textMesh.font = TMP_FontAsset.defaultFontAsset;
             textMesh.rectTransform.SetParent(parent, false);
             textMesh.text = text;
             textMesh.fontSize = 4;

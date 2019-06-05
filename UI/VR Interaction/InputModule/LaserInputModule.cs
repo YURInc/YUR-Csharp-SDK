@@ -15,85 +15,6 @@ namespace VRUiKits.Utils
         public Pointer pointer = Pointer.LeftHand;
         /*** Define trigger key to fire events for different platforms ***/
 
-       
-
-#if UIKIT_OCULUS
-        public OVRInput.Button trigger = OVRInput.Button.PrimaryIndexTrigger;
-        OVRInput.Controller activeController;
-        OVRCameraRig oculusRig;
-        public Transform TargetControllerTransform
-        {
-            get
-            {
-                if (pointer == Pointer.LeftHand)
-                {
-                    return oculusRig.leftHandAnchor;
-                }
-                else if (pointer == Pointer.RightHand)
-                {
-                    return oculusRig.rightHandAnchor;
-                }
-                else
-                {
-                    return oculusRig.centerEyeAnchor;
-                }
-            }
-        }
-#endif
-
-        // Deprecated Steam VR 1.0 plugin
-#if UIKIT_VIVE
-        public Valve.VR.EVRButtonId trigger = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
-        [SerializeField]
-        SteamVR_ControllerManager steamVRControllerManager;
-        SteamVR_TrackedObject trackedObjectL, trackedObjectR;
-
-        public SteamVR_Controller.Device ControllerLeft
-        {
-            get
-            {
-                if (null == trackedObjectL) { return null; }
-                if (-1 == (int)trackedObjectL.index) { return null; }
-                return SteamVR_Controller.Input((int)trackedObjectL.index);
-            }
-        }
-
-        public SteamVR_Controller.Device ControllerRight
-        {
-            get
-            {
-                if (null == trackedObjectR) { return null; }
-                if (-1 == (int)trackedObjectR.index) { return null; }
-                return SteamVR_Controller.Input((int)trackedObjectR.index);
-            }
-        }
-#endif
-
-#if UIKIT_VIVE_STEAM_2
-        public SteamVR_Action_Boolean triggerAction;
-        [SerializeField]
-        SteamVR_PlayArea steamVRPlayArea;
-        Transform controllerLeft, controllerRight, centerEye;
-        public Transform TargetControllerTransform
-        {
-            get
-            {
-                if (pointer == Pointer.LeftHand)
-                {
-                    return controllerLeft;
-                }
-                else if (pointer == Pointer.RightHand)
-                {
-                    return controllerRight;
-                }
-                else
-                {
-                    return centerEye;
-                }
-            }
-        }
-#endif
-
         /********** Gaze ***********/
         public GameObject currentTarget;
         float currentClickTime;
@@ -147,20 +68,6 @@ namespace VRUiKits.Utils
             {
                 canvas.worldCamera = helperCamera;
             }
-
-            //if(platform == VRPlatform.OCULUS)
-            //    SetupOculus();
-
-            //if (platform == VRPlatform.VIVE)
-            //    SetupViveControllers();
-
-            //if (platform == VRPlatform.VIVE_STEAM2)
-            //    SetupVive2Controllers();
-            //if (null == triggerAction)
-            //{
-            //    Debug.LogError("No trigger action assigned");
-            //    return;
-            //}
         }
 
         public void SetController(UIKitPointer _controller)
@@ -175,81 +82,12 @@ namespace VRUiKits.Utils
                 controller = null;
             }
         }
-
-        //public override void Process()
-        //{
-        //    //if (null != controller)
-        //    //{
-        //    //    UpdateHelperCamera();
-        //    //    if (pointer == Pointer.Eye)
-        //    //    {
-        //    //        ProcessGazePointer();
-        //    //    }
-        //    //    else
-        //    //    {
-        //    //        CheckTriggerStatus();
-        //    //        ProcessLaserPointer();
-        //    //    }
-        //    //}
-        //}
-
         // Update helper camera position
         public void UpdateHelperCamera()
         {
             helperCamera.transform.position = controller.transform.position;
             helperCamera.transform.rotation = controller.transform.rotation;
         }
-
-//        public virtual void CheckTriggerStatus()
-//        {
-//            /*** Define trigger key to fire events for different platforms ***/
-//            //if (platform == VRPlatform.OCULUS) {
-//            //    OculusLaserInputModule.CheckTriggerStatus();
-//            //    activeController = OVRInput.GetActiveController();
-//            //    // Check if Oculus Rift is being used, then we need to check if button is pressed on target pointer.
-//            //    if (activeController == OVRInput.Controller.Touch ||
-//            //    activeController == OVRInput.Controller.LTouch || activeController == OVRInput.Controller.RTouch)
-//            //    {
-//            //        if (pointer == Pointer.LeftHand)
-//            //        {
-//            //            triggerPressed = OVRInput.Get(trigger, OVRInput.Controller.LTouch);
-//            //        }
-//            //        else if (pointer == Pointer.RightHand)
-//            //        {
-//            //            triggerPressed = OVRInput.Get(trigger, OVRInput.Controller.RTouch);
-//            //        }
-//            //    }
-//            //    else
-//            //    {
-//            //        triggerPressed = OVRInput.Get(trigger);
-//            //    }
-//            //}
-//#if UIKIT_VIVE_STEAM_2
-//            // Using the action system
-//            if (pointer == Pointer.LeftHand)
-//            {
-//                triggerPressed = triggerAction.GetState(SteamVR_Input_Sources.LeftHand);
-//            }
-//            else if (pointer == Pointer.RightHand)
-//            {
-//                triggerPressed = triggerAction.GetState(SteamVR_Input_Sources.RightHand);
-//            }
-
-//#elif UIKIT_VIVE
-//            if (pointer == Pointer.LeftHand)
-//            {
-//                if (null == ControllerLeft) { return; }
-//                triggerPressed = ControllerLeft.GetPress(trigger);
-//            }
-//            else if (pointer == Pointer.RightHand)
-//            {
-//                if (null == ControllerRight) { return; }
-//                triggerPressed = ControllerRight.GetPress(trigger);
-//            }
-//#else
-//            triggerPressed = Input.GetKey("space");
-//#endif
-//        }
 
         public void ProcessGazePointer()
         {
@@ -451,26 +289,6 @@ namespace VRUiKits.Utils
             return data.used;
         }
 
-        // Modified from StandaloneInputModule
-        //public override void ActivateModule()
-        //{
-        //    base.ActivateModule();
-
-        //    var toSelect = eventSystem.currentSelectedGameObject;
-        //    if (toSelect == null)
-        //        toSelect = eventSystem.firstSelectedGameObject;
-
-        //    eventSystem.SetSelectedGameObject(toSelect, GetBaseEventData());
-        //}
-
-        //// Copied from StandaloneInputModule
-        //public override void DeactivateModule()
-        //{
-        //    base.DeactivateModule();
-        //    ClearSelection();
-        //}
-
-        // Modified from PointerInputModule
         protected void ClearSelection()
         {
             var baseEventData = GetBaseEventData();
@@ -527,86 +345,6 @@ namespace VRUiKits.Utils
                 ExecuteEvents.Execute(eventData.pointerDrag, eventData, ExecuteEvents.dragHandler);
             }
         }
-
-#if UIKIT_OCULUS
-        void SetupOculus()
-        {
-            if (null != OVRManager.instance)
-            {
-                oculusRig = OVRManager.instance.GetComponent<OVRCameraRig>();
-            }
-
-            if (null == oculusRig)
-            {
-                oculusRig = Object.FindObjectOfType<OVRCameraRig>();
-            }
-
-            if (null == oculusRig)
-            {
-                Debug.LogError("Please import Oculus Utilities and put OVRCameraRig prefab into your scene");
-            }
-        }
-#endif
-
-#if UIKIT_VIVE
-        void SetupViveControllers()
-        {
-            if (null == steamVRControllerManager)
-            {
-                SteamVR_ControllerManager[] existingManagers = GameObject.FindObjectsOfType<SteamVR_ControllerManager>();
-
-                //ignore externalcamera.cfg for mixed reality videos
-                if (existingManagers.GetLength(0) > 0)
-                {
-                    for (int i = 0; i < existingManagers.GetLength(0); i++)
-                    {
-                        if (existingManagers[i].gameObject.name != "External Camera")
-                            steamVRControllerManager = existingManagers[i];
-                    }
-                }
-
-                if (null == steamVRControllerManager)
-                {
-                    Debug.LogError("Please import SteamVR Plugin and put [CameraRig] prefab into your scene");
-                    return;
-                }
-
-                trackedObjectL = steamVRControllerManager.left.GetComponent<SteamVR_TrackedObject>();
-                trackedObjectR = steamVRControllerManager.right.GetComponent<SteamVR_TrackedObject>();
-            }
-        }
-#endif
-
-#if UIKIT_VIVE_STEAM_2
-        void SetupVive2Controllers()
-        {
-            if (null == steamVRPlayArea)
-            {
-                steamVRPlayArea = FindObjectOfType<SteamVR_PlayArea>();
-            }
-
-            if (null != steamVRPlayArea)
-            {
-                foreach (SteamVR_Behaviour_Pose pose in steamVRPlayArea.GetComponentsInChildren<SteamVR_Behaviour_Pose>(true))
-                {
-                    if (pose.inputSource == SteamVR_Input_Sources.RightHand)
-                    {
-                        controllerRight = pose.transform;
-                    }
-                    else if (pose.inputSource == SteamVR_Input_Sources.LeftHand)
-                    {
-                        controllerLeft = pose.transform;
-                    }
-                }
-
-                centerEye = steamVRPlayArea.GetComponentInChildren<Camera>(true).transform;
-            }
-            else
-            {
-                Debug.LogError("Please import SteamVR Plugin and put [CameraRig] prefab into your scene");
-            }
-        }
-#endif
     }
 
     public enum VRPlatform

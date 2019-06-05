@@ -4,34 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AB38E994-C7FD-4363-A01F-DBEEEE30800F}</ProjectGuid>
+    <ProjectGuid>{460A8F99-FEB1-4BD0-AE1F-663CC4681239}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>YUR.SDK.Unity</RootNamespace>
-    <AssemblyName>YUR.SDK.UNITY</AssemblyName>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UnityOculusLibrary</RootNamespace>
+    <AssemblyName>YUR.SDK.Unity.Oculus</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -41,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -49,49 +30,20 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="netstandard">
-      <HintPath>..\YUR_UnitySDK\YUR Unity Package Test\Builds\YURExampleScene_Data\Managed\netstandard.dll</HintPath>
+      <HintPath>..\..\..\YUR_UnitySDK\YUR Unity Package Test\Builds\YURExampleScene_Data\Managed\netstandard.dll</HintPath>
+    </Reference>
+    <Reference Include="Oculus.VR">
+      <HintPath>..\..\..\YUR_UnitySDK\YUR Unity Package Test\Builds\YURExampleScene_Data\Managed\Oculus.VR.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.Entity.Design" />
-    <Reference Include="System.Data.Linq" />
-    <Reference Include="System.Net" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\YUR_UnitySDK\YUR Unity Package Test\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
@@ -120,8 +72,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.BaselibModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="UnityEngine.BaselibModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.BaselibModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClothModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -148,8 +99,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.DirectorModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.FileSystemHttpModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="UnityEngine.FileSystemHttpModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.FileSystemHttpModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.GameCenterModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -160,8 +110,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.GridModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.HotReloadModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="UnityEngine.HotReloadModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.HotReloadModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -200,8 +149,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.ProfilerModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="UnityEngine.ProfilerModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.ProfilerModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ScreenCaptureModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -212,8 +160,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.SharedInternalsModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.SpatialTrackingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="UnityEngine.SpatialTrackingModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.SpatialTrackingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpriteMaskModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -232,8 +179,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.StyleSheetsModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.SubstanceModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="UnityEngine.SubstanceModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.SubstanceModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TerrainModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -256,15 +202,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.TilemapModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.TimelineModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="UnityEngine.TimelineModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.TimelineModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.TLSModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="UnityEngine.TLSModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.TLSModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UI">
+    <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\UnityExtensions\Unity\GUISystem\Standalone\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIElementsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -275,8 +220,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.UIModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UmbraModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="UnityEngine.UmbraModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.UmbraModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UNETModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -291,8 +235,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.UnityTestProtocolModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="UnityEngine.UnityTestProtocolModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.UnityTestProtocolModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UnityWebRequestAssetBundleModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -339,134 +282,19 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.XRModule.dll</HintPath>
     </Reference>
+    <Reference Include="YUR.SDK.UNITY">
+      <HintPath>..\..\..\YUR_UnitySDK\YUR Unity Package Test\Assets\YUR\Plugins\YUR.SDK.UNITY.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Gesture Recognition\GestureCombinations.cs" />
-    <Compile Include="Gesture Recognition\GestureRecognition.cs" />
-    <Compile Include="Gesture Recognition\YUR_GestureRecognition.cs" />
-    <Compile Include="UI\Calories.cs" />
-    <Compile Include="UI\VR Interaction\Effects\ImageHoverOutline.cs" />
-    <Compile Include="UI\VR Interaction\Effects\TextHoverScale.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\GazeInputModule.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\LaserInputModule.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\MouseInputModule.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\Pointer\GazeProgressCircle.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\Pointer\LaserPointer.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\Pointer\UIKitPointer.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\Steam2LaserInputDirect.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\UIKitInputModule.cs" />
-    <Compile Include="UI\VR Interaction\UI\CardList\CardItem.cs" />
-    <Compile Include="UI\VR Interaction\UI\CardList\CardListManager.cs" />
-    <Compile Include="UI\VR Interaction\UI\Inputs\InputFocusHelper.cs" />
-    <Compile Include="UI\VR Interaction\UI\Inputs\TMP_InputFocusHelper.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\KeyboardExtentionMethods.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\KeyboardManager.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\Keys\Alphabet.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\Keys\Key.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\Keys\Number.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\Keys\Shift.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\Keys\Symbol.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\TMP_KeyboardManager.cs" />
-    <Compile Include="UI\VR Interaction\UI\MenuTab\Item.cs" />
-    <Compile Include="UI\VR Interaction\UI\MenuTab\ListSelectionHelper.cs" />
-    <Compile Include="UI\VR Interaction\UI\MenuTab\MenuItem.cs" />
-    <Compile Include="UI\VR Interaction\UI\MenuTab\TabItem.cs" />
-    <Compile Include="UI\VR Interaction\UI\Options\OptionItem.cs" />
-    <Compile Include="UI\VR Interaction\UI\Options\OptionsManager.cs" />
-    <Compile Include="UI\VR Interaction\UI\Pagination\Pagination.cs" />
-    <Compile Include="UI\VR Interaction\UI\ProgressBar\CircularProgressBar.cs" />
-    <Compile Include="UI\VR Interaction\UI\ProgressBar\ProgressBarManager.cs" />
-    <Compile Include="UI\VR Interaction\UI\ProgressBar\ScrollController.cs" />
-    <Compile Include="UI\VR Interaction\UI\ProgressBar\SliderProgressBar.cs" />
-    <Compile Include="UI\VR Interaction\Utility\MobileKeyboardManager.cs" />
-    <Compile Include="UI\VR Interaction\Utility\UIKitInputField.cs" />
-    <Compile Include="UI\VR Interaction\Utility\Util.cs" />
-    <Compile Include="UI\VR Interaction\Utility\VREventSystemHelper.cs" />
-    <Compile Include="UI\WorkoutStartOnEnable.cs" />
-    <Compile Include="UI\YUR Dash\Backgrounds.cs" />
-    <Compile Include="UI\YUR Dash\Screens\Create Account\Screens_CreateAccount.cs" />
-    <Compile Include="UI\YUR Dash\Screens\Edit Profile\BirthDateHelpers.cs" />
-    <Compile Include="UI\YUR Dash\Screens\Edit Profile\BirthdateScript.cs" />
-    <Compile Include="UI\YUR Dash\Screens\Edit Profile\HeightScript.cs" />
-    <Compile Include="UI\YUR Dash\Screens\Edit Profile\Screens_EditProfile.cs" />
-    <Compile Include="UI\YUR Dash\Screens\Edit Profile\WeightScript.cs" />
-    <Compile Include="UI\YUR Dash\Screens\Edit Profile\YUROptionsManager.cs" />
-    <Compile Include="UI\YUR Dash\Screens\InitialScreen\LoginButtonScript.cs" />
-    <Compile Include="UI\YUR Dash\Screens\InitialScreen\Screens_InitialLogin.cs" />
-    <Compile Include="UI\YUR Dash\Screens\Keyboard Canvas\KeyboardCanvas.cs" />
-    <Compile Include="UI\YUR Dash\Screens\Login Email Password\Screens_LoginEmailPassword.cs" />
-    <Compile Include="UI\YUR Dash\Screens\Main Menu\Screens_MainMenu.cs" />
-    <Compile Include="UI\YUR Dash\Screens\Stats\Screens_Stats.cs" />
-    <Compile Include="UI\YUR Dash\Screens\Stats\StatsViewer.cs" />
-    <Compile Include="UI\YUR Dash\Screens\User Selection\Screens_UserSelection.cs" />
-    <Compile Include="UI\YUR Dash\VersionControl.cs" />
-    <Compile Include="UI\YUR Dash\YURInputSetup.cs" />
-    <Compile Include="UI\YUR Dash\YURScreenController.cs" />
-    <Compile Include="UI\YUR Dash\YURScreenCoordinator.cs" />
-    <Compile Include="UI\YUR Dash\YurScreenSystem.cs" />
-    <Compile Include="UserManagement\Login_Create_Logout.cs" />
-    <Compile Include="Utilities\Canvas_Generation.cs" />
-    <Compile Include="Utilities\YUR_Account.cs" />
-    <Compile Include="Workouts\WorkoutController.cs" />
-    <Compile Include="YUR\YUR.cs" />
-    <Compile Include="YUR\YURSettingsScriptableObject.cs" />
-    <Compile Include="YUR\YUR_Main_Static.cs" />
-    <Compile Include="YUR\YUR_SceneWorkoutManger.cs" />
-    <None Include="TestFolders\OG_TestingClass.cs" />
-    <Compile Include="UserManagement\User Manager Functions.cs" />
-    <None Include="TestFolders\Program.cs" />
+    <Compile Include="OculusLaserInputModule.cs" />
+    <Compile Include="OculusUIKitPointer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Systems\InterOperations\YUR_Imports.cs" />
-    <Compile Include="UserManagement\User Manager.cs" />
-    <Compile Include="UserManagement\Users\Current User\Current User Functions.cs" />
-    <Compile Include="Utilities\YUR_ConfigurationManager.cs" />
-    <Compile Include="Utilities\YUR_Logging.cs" />
-    <Compile Include="Utilities\YUR_Constants.cs" />
-    <Compile Include="Workouts\YUR_Workout_Functions.cs" />
-    <Compile Include="UserManagement\Users\Current User\Current User DATA\UserBiometrics.cs" />
-    <Compile Include="UserManagement\Users\Current User\Current User DATA\Current User Profile.cs" />
-    <Compile Include="UserManagement\Users\Current User\Current User Account Credentials.cs" />
-    <Compile Include="UserManagement\Users\Current User\Current User Data.cs" />
-    <Compile Include="UserManagement\Users\Current User\Current User DATA\UserGameData.cs" />
-    <Compile Include="UserManagement\Users\Current User\Current User DATA\UserGeneralCalorieData.cs" />
-    <Compile Include="Utilities\YUR_Conversions.cs" />
-    <Compile Include="Workouts\YUR_Workout.cs" />
-    <Compile Include="YUR\YUR_Main_Internal.cs" />
-    <Compile Include="YUR\YUR_Main_Public.cs" />
-    <None Include="package.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <Compile Include="Calories\YUR_Calories.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\VR Interaction\Editor\" />
-    <Folder Include="UI\VR Interaction\InputModule\Editor\" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties package_1json__JSONSchema="http://json.schemastore.org/package.manifest" />
-    </VisualStudio>
-  </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>copy "YUR.SDK.UNITY.dll" "Z:\Games\Oculus\Software\hyperbolic-magnetism-beat-saber\Beat Saber_Data\Managed"
-copy "YUR.SDK.UNITY.dll" "Z:\YUR\Repositories\YUR_UnitySDK\YUR Unity Package Test\Assets\YUR\Plugins"
-copy "YUR.SDK.UNITY.dll" "Z:\YUR\Repositories\YUR_UnitySDK\YUR Unity Package Test Quest Bug\YUR Unity Package Test\Assets\YUR\Plugins"</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetFileName) "Z:\Games\Oculus\Software\hyperbolic-magnetism-beat-saber\Beat Saber_Data\Managed"
+copy $(TargetFileName) "Z:\YUR\Repositories\YUR_UnitySDK\YUR Unity Package Test\Assets\YUR\Plugins"
+copy $(TargetFileName) "Z:\YUR\Repositories\YUR_UnitySDK\YUR Unity Package Test Quest Bug\YUR Unity Package Test\Assets\YUR\Plugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>

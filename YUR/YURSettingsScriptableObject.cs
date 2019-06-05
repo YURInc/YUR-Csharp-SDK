@@ -9,6 +9,8 @@ public class YURSettingsScriptableObject : ScriptableObject
     public string GameID;
     public bool AutomaticUpdates = true;
     public bool AutomaticallySignInUser = true;
+    public bool UseYURsInteractionSystem = true;
+
     public VRUiKits.Utils.VRPlatform platform = VRUiKits.Utils.VRPlatform.NONE;
 
     public string LeftControllerButton;
@@ -20,5 +22,7 @@ public class YURSettingsScriptableObject : ScriptableObject
     public bool WriteDebuggingToFile = false;
 
     //////
-    public bool CustomYURGUI = false;  
+    public bool CustomYURGUI = false;
+
+    public string BackgroundsList;
 }

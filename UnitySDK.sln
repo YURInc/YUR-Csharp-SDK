@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitySDK", "UnitySDK.csproj", "{AB38E994-C7FD-4363-A01F-DBEEEE30800F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitySteamLibrary", "UnitySteamVR\UnitySteamLibrary\UnitySteamLibrary\UnitySteamLibrary.csproj", "{21AAAABC-42BB-4B7D-9154-55692FFC4D63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityOculusLibrary", "UnityOculusLibrary\UnityOculusLibrary\UnityOculusLibrary.csproj", "{460A8F99-FEB1-4BD0-AE1F-663CC4681239}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,22 @@ Global
 		{AB38E994-C7FD-4363-A01F-DBEEEE30800F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AB38E994-C7FD-4363-A01F-DBEEEE30800F}.Release|x64.ActiveCfg = Release|x64
 		{AB38E994-C7FD-4363-A01F-DBEEEE30800F}.Release|x64.Build.0 = Release|x64
+		{21AAAABC-42BB-4B7D-9154-55692FFC4D63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21AAAABC-42BB-4B7D-9154-55692FFC4D63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21AAAABC-42BB-4B7D-9154-55692FFC4D63}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{21AAAABC-42BB-4B7D-9154-55692FFC4D63}.Debug|x64.Build.0 = Debug|Any CPU
+		{21AAAABC-42BB-4B7D-9154-55692FFC4D63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21AAAABC-42BB-4B7D-9154-55692FFC4D63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21AAAABC-42BB-4B7D-9154-55692FFC4D63}.Release|x64.ActiveCfg = Release|Any CPU
+		{21AAAABC-42BB-4B7D-9154-55692FFC4D63}.Release|x64.Build.0 = Release|Any CPU
+		{460A8F99-FEB1-4BD0-AE1F-663CC4681239}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{460A8F99-FEB1-4BD0-AE1F-663CC4681239}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{460A8F99-FEB1-4BD0-AE1F-663CC4681239}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{460A8F99-FEB1-4BD0-AE1F-663CC4681239}.Debug|x64.Build.0 = Debug|Any CPU
+		{460A8F99-FEB1-4BD0-AE1F-663CC4681239}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{460A8F99-FEB1-4BD0-AE1F-663CC4681239}.Release|Any CPU.Build.0 = Release|Any CPU
+		{460A8F99-FEB1-4BD0-AE1F-663CC4681239}.Release|x64.ActiveCfg = Release|Any CPU
+		{460A8F99-FEB1-4BD0-AE1F-663CC4681239}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

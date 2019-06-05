@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 namespace VRUiKits.Utils
 {
     [RequireComponent(typeof(VREventSystemHelper))]
-    public class OculusLaserInputModule : LaserInputModule
+    public partial class OculusLaserInputModule : LaserInputModule
     {
         public static OculusLaserInputModule occinst;
         /*** Define trigger key to fire events for different platforms ***/
@@ -99,7 +99,6 @@ namespace VRUiKits.Utils
             var toSelect = eventSystem.currentSelectedGameObject;
             if (toSelect == null)
                 toSelect = eventSystem.firstSelectedGameObject;
-
             eventSystem.SetSelectedGameObject(toSelect, GetBaseEventData());
         }
 

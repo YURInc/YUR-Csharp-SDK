@@ -2,7 +2,7 @@
 
 namespace VRUiKits.Utils
 {
-    public class OculusUIKitPointer : UIKitPointer
+    public partial class OculusUIKitPointer : UIKitPointer
     {
          void Start()
          {

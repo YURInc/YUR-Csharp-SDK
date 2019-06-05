@@ -13,13 +13,13 @@ namespace YUR.SDK.Unity
     public class YUR_GestureRecognition : MonoBehaviour
     {
 
-        // The file from which to load gestures on startup (left hand).
-        // For example: "Assets/GestureRecognition/Sample_TwoHanded_Gestures.dat"
-        [SerializeField] private string LoadGesturesFile;
+        //// The file from which to load gestures on startup (left hand).
+        //// For example: "Assets/GestureRecognition/Sample_TwoHanded_Gestures.dat"
+        //[SerializeField] private string LoadGesturesFile;
 
-        // File where to save recorded gestures.
-        // For example: "Assets/GestureRecognition/Sample_TwoHanded_MyGestures.dat"
-        [SerializeField] private string SaveGesturesFile;
+        //// File where to save recorded gestures.
+        //// For example: "Assets/GestureRecognition/Sample_TwoHanded_MyGestures.dat"
+        //[SerializeField] private string SaveGesturesFile;
 
         // Averaged controller motion (distance).
         private double controller_motion_distance_left = 0;

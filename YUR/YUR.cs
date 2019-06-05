@@ -1,6 +1,4 @@
-﻿
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using System.IO;
 using System;
 using System.Collections;
@@ -27,7 +25,7 @@ namespace YUR.SDK.Unity
             }
           
             /// Load General Settings ///
-            var Settings = Resources.Load("YURGeneralSettings") as YURSettingsScriptableObject;
+            Settings = Resources.Load("YURGeneralSettings") as YURSettingsScriptableObject;
             AutoUpdate = Settings.AutomaticUpdates;
 
 
@@ -118,25 +116,6 @@ namespace YUR.SDK.Unity
         public void PrepareScreenSystem(bool PreviousLogin)
         {
             yURScreenSystem = YUR_GO.AddComponent<UI.YURScreenSystem>();
-        }
-
-
-        /// <summary>
-        /// Check to make sure Unity XR is setup
-        /// </summary>
-        private void OnEnable()
-        {
-
-#if UNITY_2017_2_OR_NEWER
-
-            if (!XRSettings.enabled)
-            {
-                //GameObject.FindGameObjectWithTag("YURGameInfoText").GetComponent<TMPro.TextMeshProUGUI>().text = "XR Disabled!?!";
-                Debug.LogWarning("<b>YUR: Project is not in XR mode! Disabling.</b>");
-                enabled = false;
-                return;
-            }
-#endif
         }
 
         private void OnDisable()
@@ -561,6 +540,11 @@ namespace YUR.SDK.Unity
     /// </summary>
     public partial class YUR : MonoBehaviour
     {
+        /// <summary>
+        /// Loaded on runtime, managed by helper script in editor
+        /// </summary>
+        [HideInInspector]
+        public YURSettingsScriptableObject Settings;
 
         public static YUR Yur { get { return _yur; } set { _yur = value; } }
         private static YUR _yur;

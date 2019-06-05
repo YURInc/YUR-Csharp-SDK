@@ -61,6 +61,7 @@ namespace YUR.SDK.Unity.UI {
 
         public void PresentNewScreen<T>(T screenController, bool resetHierarchy = false)
         {
+            //UI.Background.Backgrounds.Instance.SetBackground(screenController);
             Keyboard.SetActive(false);
             int index = GetScreenIndex(screenController);
             Hierarchy[Hierarchy.Count - 1].gameObject.SetActive(false);
@@ -108,6 +109,7 @@ namespace YUR.SDK.Unity.UI {
             else
             {
                 Hierarchy[index - 1].gameObject.SetActive(true);
+                //UI.Background.Backgrounds.Instance.SetBackground(Hierarchy[index - 1].gameObject.GetComponent<YURScreenController>());
             }
         }
 

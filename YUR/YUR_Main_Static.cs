@@ -1,14 +1,4 @@
-﻿#if UNITY_EDITOR
-using UnityEditor;
-#endif
-using UnityEngine;
-using System.IO;
-using System.Collections;
-using YUR.SDK.Unity.UserManagement;
-#if UNITY_2017_2_OR_NEWER
-using UnityEngine.XR;
-#endif
-
+﻿
 namespace YUR.SDK.Unity
 {
     public partial class YUR_Main

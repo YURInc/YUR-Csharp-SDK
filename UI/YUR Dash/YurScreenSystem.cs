@@ -14,21 +14,26 @@ namespace YUR.SDK.Unity.UI
         public VRUiKits.Utils.LaserInputModule LaserIM;
         
         public bool isActivated = false;
+        public bool YURInteractionSystem = true;
 
         public static YURScreenSystem ScreenSystem;
 
         public void Awake()
         {
             ScreenSystem = this;
-            
+
+
+
             //action_single = Valve.VR.SteamVR_Input.GetSingleAction("YURPrimarySqueeze");
         }
 
         /// <summary>
-        /// Present the dash
+        /// Show the YUR User Interface Screen
         /// </summary>
-        public void PresentYURGUI()
+        /// <param name="UseYURUISystem">True to use the interaction system included with YUR</param>
+        public void PresentYURGUI(bool UseYURUISystem = true)
         {
+            YURInteractionSystem = UseYURUISystem;
             if(isActivated) // If screen is already present, return;
             {
                 return;
@@ -46,11 +51,13 @@ namespace YUR.SDK.Unity.UI
             else if (Login.Status == Login.StatusType.Logged_In) // True, Show Main Menu on UI call
             {
                 YURScreenCoordinator.ScreenCoordinator.Hierarchy.Add(YURScreenCoordinator.ScreenCoordinator.MainMenu);
+                //UI.Background.Backgrounds.Instance.SetBackground(YURScreenCoordinator.ScreenCoordinator.MainMenu);
                 
             }
             else // Display YUR Initial Login Screen
             {
                 YURScreenCoordinator.ScreenCoordinator.Hierarchy.Add(YURScreenCoordinator.ScreenCoordinator.InitialMenu);
+               // UI.Background.Backgrounds.Instance.SetBackground(YURScreenCoordinator.ScreenCoordinator.InitialMenu);
             }
 
             StartCoroutine(_presentYURGUI()); // Setup and show the Dash
@@ -75,11 +82,13 @@ namespace YUR.SDK.Unity.UI
 
         }
 
+        /// <summary>
+        /// Create the dash and present it
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator _presentYURGUI()
         {
             GameObject Camera;
-
-            
             try
             {
                 Camera = YUR.Yur.Camera;
@@ -137,10 +146,13 @@ namespace YUR.SDK.Unity.UI
             else
                 children = Camera.transform.childCount;
 
+            if()
+
+            if (YURInteractionSystem == false)
+                yield break;
+
             if (YUR.Yur.YURAssetBundle == null)
             {
-
-                
                 string URI = "file:///" + Application.dataPath + "/AssetBundles/" + YUR.Yur.assetBundleName;
                 UnityEngine.Networking.UnityWebRequest request = UnityEngine.Networking.UnityWebRequestAssetBundle.GetAssetBundle(URI, 0);
                 yield return request.SendWebRequest();
@@ -152,7 +164,6 @@ namespace YUR.SDK.Unity.UI
                 {
                     YUR_Log.Log("Local asset bundle found!");
                     yield return YUR.Yur.YURAssetBundle = DownloadHandlerAssetBundle.GetContent(request);
-
                 }
             }
 
@@ -234,7 +245,7 @@ namespace YUR.SDK.Unity.UI
             }
             else
             {
-                YUR_Log.Log("Adding Event System Helper and Input Moduel");
+                YUR_Log.Log("Adding Event System Helper and Input Module");
                 EventSystem.gameObject.AddComponent<VRUiKits.Utils.VREventSystemHelper>();
             }
 
@@ -245,7 +256,7 @@ namespace YUR.SDK.Unity.UI
             }
             else if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.VIVE_STEAM2)
             {
-                yield return LaserIM = EventSystem.gameObject.AddComponent<VRUiKits.Utils.Steam2LaserInputModule>(); // Attach the input module for SteamVR 2
+                yield return new VRUiKits.Utils.Steam2LaserInputDirect(ref EventSystem, out LaserIM); // Attach the input module for SteamVR 2
                 YUR_Log.Log("Steam Input Module Added");
             }
             LaserIM.platform = YUR.Yur.platform;
@@ -261,6 +272,7 @@ namespace YUR.SDK.Unity.UI
 
         public void Update() ///  Used for testing
         {
+
             if (Input.GetKey("a"))
             {
                 PresentYURGUI(); // Press the "a" key to present YUR Dash
