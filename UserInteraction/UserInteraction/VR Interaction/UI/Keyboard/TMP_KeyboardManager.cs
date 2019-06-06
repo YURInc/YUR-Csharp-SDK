@@ -22,15 +22,15 @@ namespace VRUiKits.Utils
 
         [Header("Essentials")]
         public Transform keys;
-        public static TMP_InputField Target
+        public static VRUiKits.Utils.UIKitInputField Target
         {
             get
             {
                 var _this = EventSystem.current.currentSelectedGameObject;
 
-                if (null != _this && null != _this.GetComponent<TMP_InputField>())
+                if (null != _this && null != _this.GetComponent<VRUiKits.Utils.UIKitInputField>())
                 {
-                    return _this.GetComponent<TMP_InputField>();
+                    return _this.GetComponent<VRUiKits.Utils.UIKitInputField>();
                 }
 
                 if (null != target)
@@ -52,7 +52,7 @@ namespace VRUiKits.Utils
          Record a helper target for some 3rd party packages which lost focus when
          user click on keyboard.
          */
-        private static TMP_InputField target;
+        private static VRUiKits.Utils.UIKitInputField target;
         private string Input
         {
             get

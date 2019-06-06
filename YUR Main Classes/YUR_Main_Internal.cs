@@ -27,8 +27,9 @@ namespace YUR.SDK.Unity
         IEnumerator LoadUsers()
         {
             YUR_Log.Log("Loading Users");
-            yield return User_Manager = new GameObject("YUR_Users").AddComponent<YUR_UserManager>();
+            yield return User_Manager = new GameObject("[Users]").AddComponent<YUR_UserManager>();
             yield return User_Manager.GET_LIST_USERS_IDS(ref UserList);
+            User_Manager.gameObject.transform.SetParent(YUR.Yur.YURGameObject.transform);
             bool user_found = false;
             if(UserList.Count == 0)
             {

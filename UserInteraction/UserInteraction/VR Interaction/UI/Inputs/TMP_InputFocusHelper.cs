@@ -8,11 +8,11 @@ namespace VRUiKits.Utils
 {
     public class TMP_InputFocusHelper : MonoBehaviour, ISelectHandler
     {
-        private TMP_InputField input;
+        private VRUiKits.Utils.UIKitInputField input;
 
         void Awake()
         {
-            input = GetComponent<TMP_InputField>();
+            input = GetComponent<VRUiKits.Utils.UIKitInputField>();
         }
 
         public void OnSelect(BaseEventData eventData)

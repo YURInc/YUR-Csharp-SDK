@@ -246,6 +246,7 @@
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetFileName) "Z:\Games\Oculus\Software\hyperbolic-magnetism-beat-saber\Beat Saber_Data\Managed"
 copy $(TargetFileName) "Z:\YUR\Repositories\YUR_UnitySDK\YUR Unity Package Test\Assets\YUR\Plugins"
-copy $(TargetFileName) "Z:\YUR\Repositories\YUR_UnitySDK\YUR Unity Package Test Quest Bug\YUR Unity Package Test\Assets\YUR\Plugins"</PostBuildEvent>
+copy $(TargetFileName) "Z:\YUR\Repositories\YUR_UnitySDK\YUR Unity Package Test Quest Bug\YUR Unity Package Test\Assets\YUR\Plugins"
+copy $(TargetFileName) "Z:\YUR\External\Synth Rider\Most Recent Version\Synth Riders Quest (1)\Assets\YUR\Plugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>

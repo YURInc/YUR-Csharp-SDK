@@ -26,7 +26,7 @@ namespace YUR.SDK.Unity
             if (!Debugging)
                 return;
 
-            string log = "[ YUR | Log ] >> " + toLog + "\n" + (ObjectReference != null ? "Name: " + ObjectReference.ToString() : "No object provided as reference");
+            string log = "[ YUR | Log ] >> " + toLog + "\n" + (ObjectReference != null ? "Name: " + ObjectReference.ToString() : "");
             if (Log_To_File && Application.platform != RuntimePlatform.Android)
             {
                 System.IO.Directory.CreateDirectory(Utilities.YUR_Conversions.PathCombine(UnityEngine.Application.dataPath, "../UserData/"));
@@ -57,7 +57,7 @@ namespace YUR.SDK.Unity
             if (!Server_Logging)
                 return;
 
-            string log = "<b>[ YUR | Log ] || Server " + Login.Status + " || >></b> " + toLog + "\n" + (ObjectReference != null ? "Name: " + ObjectReference.ToString() : "No object provided as reference");
+            string log = "<b>[ YUR | Log ] || Server " + Login.Status + " || >></b> " + toLog + "\n" + (ObjectReference != null ? "Name: " + ObjectReference.ToString() : "");
             if (Log_To_File && Application.platform != RuntimePlatform.Android)
             {
                 System.IO.Directory.CreateDirectory(Utilities.YUR_Conversions.PathCombine(UnityEngine.Application.dataPath, "../UserData/"));
@@ -82,7 +82,7 @@ namespace YUR.SDK.Unity
             if (!Debugging)
                 return;
 
-            string log = "<b>[ YUR | WARNING ] >> </b>" + toLog + "\n" + (ObjectReference != null ? "Name: " + ObjectReference.ToString() : "No object provided as reference");
+            string log = "<b>[ YUR | WARNING ] >> </b>" + toLog + "\n" + (ObjectReference != null ? "Name: " + ObjectReference.ToString() : "");
             if (Log_To_File && Application.platform != RuntimePlatform.Android)
             {
                 System.IO.Directory.CreateDirectory(Utilities.YUR_Conversions.PathCombine(UnityEngine.Application.dataPath, "../UserData/"));
@@ -112,7 +112,7 @@ namespace YUR.SDK.Unity
         {
             if (!Error_Logging)
                 return;
-            string log = "<b>------------------ YUR ERROR ------------------</b>\n"  + error + "\n" + (ObjectReference != null ? "Name: " + ObjectReference.ToString() : "No object provided as reference");
+            string log = "<b>------------------ YUR ERROR ------------------</b>\n"  + error + "\n" + (ObjectReference != null ? "Name: " + ObjectReference.ToString() : "");
             if (Log_To_File && Application.platform != RuntimePlatform.Android)
             {
                 System.IO.Directory.CreateDirectory(Utilities.YUR_Conversions.PathCombine(UnityEngine.Application.dataPath, "../UserData/"));

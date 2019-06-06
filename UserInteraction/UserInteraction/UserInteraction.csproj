@@ -246,6 +246,7 @@
     <Compile Include="VR Interaction\UI\CardList\CardListManager.cs" />
     <Compile Include="VR Interaction\UI\Inputs\InputFocusHelper.cs" />
     <Compile Include="VR Interaction\UI\Inputs\TMP_InputFocusHelper.cs" />
+    <Compile Include="VR Interaction\UI\Inputs\UIKitInputField.cs" />
     <Compile Include="VR Interaction\UI\Keyboard\KeyboardExtentionMethods.cs" />
     <Compile Include="VR Interaction\UI\Keyboard\KeyboardManager.cs" />
     <Compile Include="VR Interaction\UI\Keyboard\Keys\Alphabet.cs" />
@@ -266,7 +267,6 @@
     <Compile Include="VR Interaction\UI\ProgressBar\ScrollController.cs" />
     <Compile Include="VR Interaction\UI\ProgressBar\SliderProgressBar.cs" />
     <Compile Include="VR Interaction\Utility\MobileKeyboardManager.cs" />
-    <Compile Include="VR Interaction\Utility\UIKitInputField.cs" />
     <Compile Include="VR Interaction\Utility\Util.cs" />
     <Compile Include="VR Interaction\Utility\VREventSystemHelper.cs" />
   </ItemGroup>

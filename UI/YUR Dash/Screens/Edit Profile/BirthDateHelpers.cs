@@ -10,12 +10,15 @@ namespace YUR.SDK.Unity.UI {
         public TextMeshProUGUI PlaceHolder;
         public TextMeshProUGUI Input;
 
+        //[HideInInspector]
+        //public TMP_InputField InputField;
+
         [HideInInspector]
-        public TMP_InputField InputField;
+        public VRUiKits.Utils.UIKitInputField InputField;
 
         private void Awake()
         {
-            InputField = gameObject.GetComponent<TMP_InputField>();
+            InputField = gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>();
 
         }
     }

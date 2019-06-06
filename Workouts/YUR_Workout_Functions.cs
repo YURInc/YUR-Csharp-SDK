@@ -9,7 +9,7 @@ namespace YUR.SDK.Unity.Workouts
         {
             if (workout.workoutInProgress || Login.Status == Login.StatusType.Logged_Out)
             {
-                YUR_Log.Error("Workout is either already in progress or there is no user logged in!");
+                YUR_Log.Warning("<b>Workout is either already in progress or there is no user logged in!</b>");
                 return;
             }
             StartWorkout?.Invoke();
@@ -34,7 +34,7 @@ namespace YUR.SDK.Unity.Workouts
         {
             if (!workout.workoutInProgress)
             {
-                YUR_Log.Error("There is no workout currently in progress to end!");
+                YUR_Log.Warning("There is no workout currently in progress to end!");
                 yield break;
             }
             int Calories;
@@ -47,8 +47,6 @@ namespace YUR.SDK.Unity.Workouts
             YUR_Main.main.User_Manager.CurrentUser.Data_General_Calories.Calories_Today += Calories;
             YUR_Main.main.User_Manager.CurrentUser.Data_Current_Session_Calories += Calories;
             YUR_Main.main.User_Manager.CurrentUser.SaveAll();
-
-            
 
             EndWorkout?.Invoke();
             System.TimeSpan t;

@@ -46,12 +46,12 @@ namespace YUR.SDK.Unity.UI
             if (User.Data_Biometrics.Metric_Units)
             {
                 int newValue;
-                if(int.TryParse(Weight.gameObject.GetComponent<TMP_InputField>().text, out newValue))
+                if(int.TryParse(Weight.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text, out newValue))
                 {
                     User.Data_Biometrics.metric.Weight = newValue;
                 }
 
-                if (int.TryParse(Height.gameObject.GetComponent<TMP_InputField>().text, out newValue))
+                if (int.TryParse(Height.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text, out newValue))
                 {
                     User.Data_Biometrics.metric.Height = newValue / 100;
                 }
@@ -59,12 +59,12 @@ namespace YUR.SDK.Unity.UI
             else
             {
                 int newValue;
-                if (int.TryParse(Weight.gameObject.GetComponent<TMP_InputField>().text, out newValue))
+                if (int.TryParse(Weight.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text, out newValue))
                 {
                     User.Data_Biometrics.customary.Weight = newValue;
                 }
 
-                if (int.TryParse(Height.gameObject.GetComponent<TMP_InputField>().text, out newValue))
+                if (int.TryParse(Height.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text, out newValue))
                 {
                     User.Data_Biometrics.customary.Height = newValue;
                 }
@@ -185,13 +185,13 @@ namespace YUR.SDK.Unity.UI
             /// BirthDate
             ////////////////////////////////////
             BirthDate.Day.PlaceHolder.text = "Day";
-            BirthDate.Day.gameObject.GetComponent<TMP_InputField>().text = User.Data_Biometrics.BirthDate[2];
+            BirthDate.Day.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text = User.Data_Biometrics.BirthDate[2];
 
             BirthDate.Month.PlaceHolder.text = "Month";
-            BirthDate.Month.gameObject.GetComponent<TMP_InputField>().text = User.Data_Biometrics.BirthDate[1];
+            BirthDate.Month.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text = User.Data_Biometrics.BirthDate[1];
 
             BirthDate.Year.PlaceHolder.text = "Year";
-            BirthDate.Year.gameObject.GetComponent<TMP_InputField>().text = User.Data_Biometrics.BirthDate[0];
+            BirthDate.Year.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text = User.Data_Biometrics.BirthDate[0];
             
 
 
@@ -202,11 +202,11 @@ namespace YUR.SDK.Unity.UI
                 Units.selectedValue = "Metric";
                 /// Weight
                 Weight.PlaceHolder.text = "kgs";
-                Weight.gameObject.GetComponent<TMP_InputField>().text = User.Data_Biometrics.metric.Weight.ToString();
+                Weight.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text = User.Data_Biometrics.metric.Weight.ToString();
                 Weight.Label.text = "Weight: (in kilograms)";
                 /// Height
                 Height.PlaceHolder.text = "cm";
-                Height.gameObject.GetComponent<TMP_InputField>().text = (User.Data_Biometrics.metric.Height * 100).ToString();
+                Height.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text = (User.Data_Biometrics.metric.Height * 100).ToString();
                 Height.Label.text = "Height: (in centimeters)";
             }
             else
@@ -215,11 +215,11 @@ namespace YUR.SDK.Unity.UI
                 Units.selectedValue = "Customary";
                 /// Weight
                 Weight.PlaceHolder.text = "lbs";
-                Weight.gameObject.GetComponent<TMP_InputField>().text = User.Data_Biometrics.customary.Weight.ToString();
+                Weight.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text = User.Data_Biometrics.customary.Weight.ToString();
                 Weight.Label.text = "Weight: (in pounds)";
                 /// Height
                 Height.PlaceHolder.text = "in";
-                Height.gameObject.GetComponent<TMP_InputField>().text = User.Data_Biometrics.customary.Height.ToString();
+                Height.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text = User.Data_Biometrics.customary.Height.ToString();
                 Height.Label.text = "Height: (in inches)";
 
             }
@@ -307,11 +307,11 @@ namespace YUR.SDK.Unity.UI
                 Units.selectedValue = "Customary";
                 /// Weight
                 Weight.PlaceHolder.text = "lbs";
-                Weight.gameObject.GetComponent<TMP_InputField>().text = User.Data_Biometrics.customary.Weight.ToString();
+                Weight.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text = User.Data_Biometrics.customary.Weight.ToString();
                 Weight.Label.text = "Weight: (in pounds)";
                 /// Height
                 Height.PlaceHolder.text = "in";
-                Height.gameObject.GetComponent<TMP_InputField>().text = User.Data_Biometrics.customary.Height.ToString();
+                Height.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text = User.Data_Biometrics.customary.Height.ToString();
                 Height.Label.text = "Height: (in inches)";
             }
             else /// New Value is Customary
@@ -330,11 +330,11 @@ namespace YUR.SDK.Unity.UI
                 Units.selectedValue = "Metric";
                 /// Weight
                 Weight.PlaceHolder.text = "kgs";
-                Weight.gameObject.GetComponent<TMP_InputField>().text = User.Data_Biometrics.metric.Weight.ToString();
+                Weight.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text = User.Data_Biometrics.metric.Weight.ToString();
                 Weight.Label.text = "Weight: (in kilograms)";
                 /// Height
                 Height.PlaceHolder.text = "cm";
-                Height.gameObject.GetComponent<TMP_InputField>().text = (User.Data_Biometrics.metric.Height * 100).ToString();
+                Height.gameObject.GetComponent<VRUiKits.Utils.UIKitInputField>().text = (User.Data_Biometrics.metric.Height * 100).ToString();
                 Height.Label.text = "Height: (in centimeters)";
             }
         }

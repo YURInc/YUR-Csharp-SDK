@@ -20,10 +20,24 @@ namespace YUR.SDK.Unity
                 YUR_Log.Error("YUR is not enabled!");
                 return;
             }
-          
+
+            /// Instantiate YUR Main Object ///
+            YUR_GO = new GameObject("[YUR]"); 
             /// Load General Settings ///
             Settings = Resources.Load("YURGeneralSettings") as YURSettingsScriptableObject;
             AutoUpdate = Settings.AutomaticUpdates;
+
+            if(!Settings.SceneBasedWorkouts || Settings.StartWorkoutScenes == null || Settings.StartWorkoutScenes.Length <= 0)
+            {
+                YUR_Log.Warning("Scene based workouts is set to false. If this is a mistake, please ensure that you have at least 1 scene setup to start a workout");
+                Settings.SceneBasedWorkouts = false;
+            }
+            else
+            {
+                var WorkoutsManager = new GameObject("[Workouts]");
+                WorkoutsManager.transform.SetParent(YUR_GO.transform);
+                _sceneWorkoutManager = WorkoutsManager.AddComponent<Workouts.YUR_SceneWorkoutManager>();
+            }
 
 
             /// Setup all AOT variables inside here
@@ -32,11 +46,11 @@ namespace YUR.SDK.Unity
                 AutoUpdate = false;
             }
 
-            _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            _mainCamera = GameObject.FindGameObjectWithTag(Settings.CameraTag);
             YUR_Log.Log("Starting to get YUR Object and startup system");
             StartCoroutine(InstantiateYURObjects());
-            _eventSystem = FindObjectOfType<UnityEngine.EventSystems.EventSystem>();
-            YUR_GO = new GameObject("YUR Main Object");
+            _eventSystem = UnityEngine.EventSystems.EventSystem.current;
+
             YUR_Main.Completed_Startup += YUR_Main_Completed_Startup;
             Fit = YUR_Script_Helper.Setup_YUR_Object(YUR_GO, Settings.GameID, Settings.debugging, Settings.ErrorDebugging, Settings.ServerDebugging, Settings.WriteDebuggingToFile, Settings.AutomaticallySignInUser);
             YURGesture = YUR_GO.AddComponent<YUR_GestureRecognition>();
@@ -47,6 +61,8 @@ namespace YUR.SDK.Unity
                 LeftControllerTrigger = Settings.LeftControllerButton;
                 RightControllerTrigger = Settings.RightControllerButton;
             }
+
+            
         }
         
         /// <summary>
@@ -606,6 +622,12 @@ namespace YUR.SDK.Unity
         //public GameObject YURDash { get { return YUR_Dash; } set { YUR_Dash = value; } }
         [HideInInspector]
         public GameObject YUR_Dash;
+
+        /// <summary>
+        /// Handles the starting and stopping of workouts based on the scene that currently loaded
+        /// </summary>
+        public Workouts.YUR_SceneWorkoutManager SceneWorkoutManager { get { return _sceneWorkoutManager; } set { _sceneWorkoutManager = value; } }
+        private Workouts.YUR_SceneWorkoutManager _sceneWorkoutManager;
 
         public UI.YURScreenSystem YuRScreenSystem { get { return yURScreenSystem; } set { yURScreenSystem = value; } }
         private UI.YURScreenSystem yURScreenSystem;

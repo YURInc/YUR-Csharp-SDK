@@ -385,7 +385,7 @@
     <Compile Include="YUR Main Classes\YUR.cs" />
     <Compile Include="YUR Main Classes\YURSettingsScriptableObject.cs" />
     <Compile Include="YUR Main Classes\YUR_Main_Static.cs" />
-    <Compile Include="YUR Main Classes\YUR_SceneWorkoutManger.cs" />
+    <Compile Include="Workouts\YUR_SceneWorkoutManager.cs" />
     <Compile Include="UserManagement\User Manager Functions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Systems\InterOperations\YUR_Imports.cs" />
@@ -434,8 +434,9 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PostBuildEvent>copy "YUR.SDK.UNITY.dll" "Z:\Games\Oculus\Software\hyperbolic-magnetism-beat-saber\Beat Saber_Data\Managed"
-copy "YUR.SDK.UNITY.dll" "Z:\YUR\Repositories\YUR_UnitySDK\YUR Unity Package Test\Assets\YUR\Plugins"
-copy "YUR.SDK.UNITY.dll" "Z:\YUR\Repositories\YUR_UnitySDK\YUR Unity Package Test Quest Bug\YUR Unity Package Test\Assets\YUR\Plugins"</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetFileName) "Z:\Games\Oculus\Software\hyperbolic-magnetism-beat-saber\Beat Saber_Data\Managed"
+copy $(TargetFileName) "Z:\YUR\Repositories\YUR_UnitySDK\YUR Unity Package Test\Assets\YUR\Plugins"
+copy $(TargetFileName) "Z:\YUR\Repositories\YUR_UnitySDK\YUR Unity Package Test Quest Bug\YUR Unity Package Test\Assets\YUR\Plugins"
+copy $(TargetFileName) "Z:\YUR\External\Synth Rider\Most Recent Version\Synth Riders Quest (1)\Assets\YUR\Plugins"</PostBuildEvent>
   </PropertyGroup>
 </Project>

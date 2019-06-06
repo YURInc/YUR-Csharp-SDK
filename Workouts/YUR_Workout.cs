@@ -25,13 +25,12 @@ namespace YUR.SDK.Unity.Workouts
 
         /// <summary>
         /// Instance, set me up like new!
-        /// </summary>
-        
+        /// </summary>        
         public static Workout workout;
 
 
         /// <summary>
-        /// Create new workout and signal wether to start it
+        /// Create new workout and signal whether to start it
         /// </summary>
         /// <param name="GameID">Use the same Game ID for every workout instance</param>
         /// <param name="start">True to start the workout on creation of the object</param>

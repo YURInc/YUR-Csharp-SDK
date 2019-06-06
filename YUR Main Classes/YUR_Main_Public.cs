@@ -43,8 +43,8 @@ namespace YUR.SDK.Unity
         /// <param name="error_debug"></param>
         public void StartUp(string game_ID = "yurapp", float Fixed_Time_Step = 90, bool debug = false, bool error_debug = true, bool server_debug = false, bool log_to_file = false, bool auto_sign_in = false, bool editor_debugging = true)
         {
-            
             main = this;
+
             DontDestroyOnLoad(main);
             DontDestroyOnLoad(this);
 

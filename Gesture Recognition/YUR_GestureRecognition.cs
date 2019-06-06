@@ -110,8 +110,7 @@ namespace YUR.SDK.Unity
                     }
                 }
             }
-
-            if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.VIVE_STEAM2)
+            else if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.VIVE_STEAM2)
             {
                 for (int i = 0; i < YUR.Yur.Camera.transform.parent.childCount; i++)
                 {
@@ -158,9 +157,9 @@ namespace YUR.SDK.Unity
                 Print("Joy" + str);
             }
 
-#if UIKIT_VIVE_STEAM_2
-            action_single = Valve.VR.SteamVR_Input.GetSingleAction("YURPrimarySqueeze");
-#endif
+//#if UIKIT_VIVE_STEAM_2
+//            action_single = Valve.VR.SteamVR_Input.GetSingleAction("YURPrimarySqueeze");
+//#endif
         }
 
         public void Print(string textout)
@@ -172,20 +171,21 @@ namespace YUR.SDK.Unity
 
         bool trigger_pressed = false;
 
+        //TODO : Restructure for Steam Input system
         void Update()
         {
             try
             {
 
-    #if !UIKIT_VIVE_STEAM_2
+    //#if !UIKIT_VIVE_STEAM_2
                 float trigger_left = Input.GetAxis(YUR.Yur.LeftControllerTrigger);
                 float trigger_right = Input.GetAxis(YUR.Yur.RightControllerTrigger);
-    #endif
+    //#endif
 
-    #if UIKIT_VIVE_STEAM_2
-                float trigger_left = action_single.GetAxis(Valve.VR.SteamVR_Input_Sources.LeftHand);
-                float trigger_right = action_single.GetAxis(Valve.VR.SteamVR_Input_Sources.RightHand);
-    #endif
+    //#if UIKIT_VIVE_STEAM_2
+    //            float trigger_left = action_single.GetAxis(Valve.VR.SteamVR_Input_Sources.LeftHand);
+    //            float trigger_right = action_single.GetAxis(Valve.VR.SteamVR_Input_Sources.RightHand);
+    //#endif
                 // If the user presses either controller's trigger, we start a new gesture.
                 if (trigger_pressed_left == false && trigger_left > 0.8)
                 {
