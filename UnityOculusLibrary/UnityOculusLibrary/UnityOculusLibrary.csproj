@@ -282,8 +282,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.XRModule.dll</HintPath>
     </Reference>
-    <Reference Include="YUR.SDK.UNITY">
-      <HintPath>..\..\..\YUR_UnitySDK\YUR Unity Package Test\Assets\YUR\Plugins\YUR.SDK.UNITY.dll</HintPath>
+    <Reference Include="UserInteraction">
+      <HintPath>..\..\..\YUR_UnitySDK\YUR Unity Package Test\Assets\YUR\Plugins\UserInteraction.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

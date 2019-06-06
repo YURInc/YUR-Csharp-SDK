@@ -9,8 +9,6 @@ namespace VRUiKits.Utils
     [RequireComponent(typeof(VREventSystemHelper))]
     public partial class Steam2LaserInputModule : LaserInputModule
     {
-        //public VRPlatform platform;
-        //public Pointer pointer = Pointer.LeftHand;
         /*** Define trigger key to fire events for different platforms ***/
 
         public SteamVR_Action_Boolean triggerAction;

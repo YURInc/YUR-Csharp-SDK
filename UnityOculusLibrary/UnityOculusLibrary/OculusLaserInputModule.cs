@@ -34,7 +34,7 @@ namespace VRUiKits.Utils
         protected override void Awake()
         {
             base.Awake();
-            YUR.SDK.Unity.YUR_Log.Log("Awaking Oculus Laser Input Module");
+            Debug.Log("Awaking Oculus Laser Input Module");
             if(occinst != null)
             {
                 DestroyImmediate(this.gameObject);

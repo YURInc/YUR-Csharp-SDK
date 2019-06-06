@@ -10,11 +10,8 @@ namespace YUR.SDK.Unity.Systems.Interops
     /// </summary>
     class CalorieTracking
     {
-#if UNITY_ANDROID && !UNITY_EDITOR
-    public const string libfile = "YUR_ARMv7";
-#else
+
         public const string libfile = "YUR";
-#endif
 
         [DllImportAttribute(libfile, EntryPoint = "BioAdjust", CallingConvention = CallingConvention.StdCall)]
         internal static extern float BioAdjust(int sex, float height_cm, float weight_kg, int age);
@@ -25,11 +22,7 @@ namespace YUR.SDK.Unity.Systems.Interops
 
     class Workouts
     {
-#if UNITY_ANDROID && !UNITY_EDITOR
-    public const string libfile = "YUR_ARMv7";
-#else
         public const string libfile = "YUR";
-#endif
         [DllImportAttribute(libfile, EntryPoint = "Upload_Workout", CallingConvention = CallingConvention.StdCall)]
         protected static extern IntPtr Upload_Workout([In, MarshalAs(UnmanagedType.LPStr)] string workout_json_string, string idToken);
         /// <summary>
@@ -46,11 +39,7 @@ namespace YUR.SDK.Unity.Systems.Interops
 
     class User_AccountCreation
     {
-#if UNITY_ANDROID && !UNITY_EDITOR
-    public const string libfile = "YUR_ARMv7";
-#else
         public const string libfile = "YUR";
-#endif
         [DllImportAttribute(libfile, EntryPoint = "Create_Account_Email_Password", CallingConvention = CallingConvention.StdCall)]
         protected static extern IntPtr Create_Account_Email_Password([In, MarshalAs(UnmanagedType.LPStr)] string email, [In, MarshalAs(UnmanagedType.LPStr)] string password, [In, MarshalAs(UnmanagedType.LPStr)] string displayName);
         internal static string CreateAccount(string email, string password, string displayName)
@@ -68,11 +57,7 @@ namespace YUR.SDK.Unity.Systems.Interops
 
     public class User_AccountAuthorization
     {
-#if UNITY_ANDROID && !UNITY_EDITOR
-    public const string libfile = "YUR_ARMv7";
-#else
         public const string libfile = "YUR";
-#endif
 
         /// TODO : Finish C++ code
         [DllImportAttribute(libfile, EntryPoint = "Get_IDToken", CallingConvention = CallingConvention.StdCall)]
@@ -100,11 +85,7 @@ namespace YUR.SDK.Unity.Systems.Interops
 
     class User_AccountAccess
     {
-#if UNITY_ANDROID && !UNITY_EDITOR
-    public const string libfile = "YUR_ARMv7";
-#else
         public const string libfile = "YUR";
-#endif
         [DllImportAttribute(libfile, EntryPoint = "Get_BiometricData", CallingConvention = CallingConvention.StdCall)]
         protected static extern IntPtr Get_BiometricData([In, MarshalAs(UnmanagedType.LPStr)] string authorization);
         /// <summary>

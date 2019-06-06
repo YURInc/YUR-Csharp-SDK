@@ -10,7 +10,7 @@
     <AssemblyName>YUR.SDK.UNITY</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
@@ -339,49 +339,23 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\Unity\Hub\Editor\2018.3.11f1\Editor\Data\Managed\UnityEngine\UnityEngine.XRModule.dll</HintPath>
     </Reference>
+    <Reference Include="UserInteraction">
+      <HintPath>..\YUR_UnitySDK\YUR Unity Package Test\Assets\YUR\Plugins\UserInteraction.dll</HintPath>
+    </Reference>
+    <Reference Include="YUR.SDK.Unity.Oculus, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>UnityOculusLibrary\UnityOculusLibrary\bin\Debug\YUR.SDK.Unity.Oculus.dll</HintPath>
+    </Reference>
+    <Reference Include="YUR.SDK.Unity.Steam, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>UnitySteamVR\UnitySteamLibrary\UnitySteamLibrary\bin\Debug\YUR.SDK.Unity.Steam.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Gesture Recognition\GestureCombinations.cs" />
     <Compile Include="Gesture Recognition\GestureRecognition.cs" />
     <Compile Include="Gesture Recognition\YUR_GestureRecognition.cs" />
     <Compile Include="UI\Calories.cs" />
-    <Compile Include="UI\VR Interaction\Effects\ImageHoverOutline.cs" />
-    <Compile Include="UI\VR Interaction\Effects\TextHoverScale.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\GazeInputModule.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\LaserInputModule.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\MouseInputModule.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\Pointer\GazeProgressCircle.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\Pointer\LaserPointer.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\Pointer\UIKitPointer.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\Steam2LaserInputDirect.cs" />
-    <Compile Include="UI\VR Interaction\InputModule\UIKitInputModule.cs" />
-    <Compile Include="UI\VR Interaction\UI\CardList\CardItem.cs" />
-    <Compile Include="UI\VR Interaction\UI\CardList\CardListManager.cs" />
-    <Compile Include="UI\VR Interaction\UI\Inputs\InputFocusHelper.cs" />
-    <Compile Include="UI\VR Interaction\UI\Inputs\TMP_InputFocusHelper.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\KeyboardExtentionMethods.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\KeyboardManager.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\Keys\Alphabet.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\Keys\Key.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\Keys\Number.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\Keys\Shift.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\Keys\Symbol.cs" />
-    <Compile Include="UI\VR Interaction\UI\Keyboard\TMP_KeyboardManager.cs" />
-    <Compile Include="UI\VR Interaction\UI\MenuTab\Item.cs" />
-    <Compile Include="UI\VR Interaction\UI\MenuTab\ListSelectionHelper.cs" />
-    <Compile Include="UI\VR Interaction\UI\MenuTab\MenuItem.cs" />
-    <Compile Include="UI\VR Interaction\UI\MenuTab\TabItem.cs" />
-    <Compile Include="UI\VR Interaction\UI\Options\OptionItem.cs" />
-    <Compile Include="UI\VR Interaction\UI\Options\OptionsManager.cs" />
-    <Compile Include="UI\VR Interaction\UI\Pagination\Pagination.cs" />
-    <Compile Include="UI\VR Interaction\UI\ProgressBar\CircularProgressBar.cs" />
-    <Compile Include="UI\VR Interaction\UI\ProgressBar\ProgressBarManager.cs" />
-    <Compile Include="UI\VR Interaction\UI\ProgressBar\ScrollController.cs" />
-    <Compile Include="UI\VR Interaction\UI\ProgressBar\SliderProgressBar.cs" />
-    <Compile Include="UI\VR Interaction\Utility\MobileKeyboardManager.cs" />
-    <Compile Include="UI\VR Interaction\Utility\UIKitInputField.cs" />
-    <Compile Include="UI\VR Interaction\Utility\Util.cs" />
-    <Compile Include="UI\VR Interaction\Utility\VREventSystemHelper.cs" />
     <Compile Include="UI\WorkoutStartOnEnable.cs" />
     <Compile Include="UI\YUR Dash\Backgrounds.cs" />
     <Compile Include="UI\YUR Dash\Screens\Create Account\Screens_CreateAccount.cs" />
@@ -408,13 +382,11 @@
     <Compile Include="Utilities\Canvas_Generation.cs" />
     <Compile Include="Utilities\YUR_Account.cs" />
     <Compile Include="Workouts\WorkoutController.cs" />
-    <Compile Include="YUR\YUR.cs" />
-    <Compile Include="YUR\YURSettingsScriptableObject.cs" />
-    <Compile Include="YUR\YUR_Main_Static.cs" />
-    <Compile Include="YUR\YUR_SceneWorkoutManger.cs" />
-    <None Include="TestFolders\OG_TestingClass.cs" />
+    <Compile Include="YUR Main Classes\YUR.cs" />
+    <Compile Include="YUR Main Classes\YURSettingsScriptableObject.cs" />
+    <Compile Include="YUR Main Classes\YUR_Main_Static.cs" />
+    <Compile Include="YUR Main Classes\YUR_SceneWorkoutManger.cs" />
     <Compile Include="UserManagement\User Manager Functions.cs" />
-    <None Include="TestFolders\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Systems\InterOperations\YUR_Imports.cs" />
     <Compile Include="UserManagement\User Manager.cs" />
@@ -431,8 +403,8 @@
     <Compile Include="UserManagement\Users\Current User\Current User DATA\UserGeneralCalorieData.cs" />
     <Compile Include="Utilities\YUR_Conversions.cs" />
     <Compile Include="Workouts\YUR_Workout.cs" />
-    <Compile Include="YUR\YUR_Main_Internal.cs" />
-    <Compile Include="YUR\YUR_Main_Public.cs" />
+    <Compile Include="YUR Main Classes\YUR_Main_Internal.cs" />
+    <Compile Include="YUR Main Classes\YUR_Main_Public.cs" />
     <None Include="package.json" />
   </ItemGroup>
   <ItemGroup>
@@ -442,10 +414,7 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\VR Interaction\Editor\" />
-    <Folder Include="UI\VR Interaction\InputModule\Editor\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>

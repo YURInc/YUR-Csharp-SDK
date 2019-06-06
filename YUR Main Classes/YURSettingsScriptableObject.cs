@@ -9,7 +9,10 @@ public class YURSettingsScriptableObject : ScriptableObject
     public string GameID;
     public bool AutomaticUpdates = true;
     public bool AutomaticallySignInUser = true;
+
     public bool UseYURsInteractionSystem = true;
+
+    public bool SceneBasedWorkoutSystem = false;
 
     public VRUiKits.Utils.VRPlatform platform = VRUiKits.Utils.VRPlatform.NONE;
 

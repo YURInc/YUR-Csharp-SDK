@@ -3,20 +3,17 @@ using System.IO;
 using System;
 using System.Collections;
 using UnityEngine.Networking;
-using YUR.SDK.Unity.UserManagement;
 
 namespace YUR.SDK.Unity
 {
-
-   /// <summary>
-   /// All of YUR Methods and Start up methods are kept here. The dash is loaded in from an Asset Bundle within the top level directory
-   /// </summary>
+    /// <summary>
+    /// All of YUR Methods and Start up methods are kept here. The dash is loaded in from an Asset Bundle within the top level directory
+    /// </summary>
     [AddComponentMenu("YUR/YUR")]
     public partial class YUR : MonoBehaviour
     {
         public void Start()
         {
-            
             _yur = this;
             if (!enabled)
             {
@@ -59,8 +56,8 @@ namespace YUR.SDK.Unity
         private void YUR_Main_Completed_Startup(bool user_found)
         {
             Debug.Log("<b>Completed startup for YUR</b>");
-            YUR_UserManager.Successful_Login += YUR_UserManager_Successful_Login;
-            YUR_UserManager.Log_Out += YUR_UserManager_Log_Out;
+            UserManagement.YUR_UserManager.Successful_Login += YUR_UserManager_Successful_Login;
+            UserManagement.YUR_UserManager.Log_Out += YUR_UserManager_Log_Out;
             PrepareScreenSystem(user_found);
         }
 
@@ -146,6 +143,15 @@ namespace YUR.SDK.Unity
         public AssetBundle YURAssetBundle;
         [HideInInspector]
         public const string yursdkname = "YUR.SDK.Unity.dll";
+
+        // TODO : Add functionality to update other DLL's
+        //[HideInInspector]
+        //public const string UserInteractionDll = "UserInteraction.dll";
+        //[HideInInspector]
+        //public const string OculusInteraction = "YUR.SDK.Unity.Oculus.dll";
+        //[HideInInspector]
+        //public const string SteamInteraction = "YUR.SDK.Unity.Steam.dll";
+
         [HideInInspector]
         public const string GitHubRepoDownloadURI = "https://github.com/YURInc/YUR-Unity-Package/releases/download/";
         [HideInInspector]

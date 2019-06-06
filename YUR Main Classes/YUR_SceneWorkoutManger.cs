@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine.SceneManagement;
 
-namespace YUR.SDK.Unity.YUR
+namespace YUR.SDK.Unity
 {
     class YUR_SceneWorkoutManger
     {

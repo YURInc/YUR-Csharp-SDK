@@ -146,10 +146,15 @@ namespace YUR.SDK.Unity.UI
             else
                 children = Camera.transform.childCount;
 
-            if()
-
-            if (YURInteractionSystem == false)
+            if(YUR.Yur.Settings.UseYURsInteractionSystem == false)
+            {
+                if (YURInteractionSystem == false)
+                    yield break;
+            }
+            else if(YURInteractionSystem == false)
+            {
                 yield break;
+            }
 
             if (YUR.Yur.YURAssetBundle == null)
             {
@@ -229,9 +234,9 @@ namespace YUR.SDK.Unity.UI
             if (YUR.Yur.eventSystem == null) // If there is no event system, create a new gameobject and attach an Event System Component
             {
                 YUR_Log.Log("None found, create event system...");
-                EventSystem = new GameObject("EventSystem");
+                //EventSystem = new GameObject("EventSystem");
                 
-                yield return YUR.Yur.eventSystem = EventSystem.AddComponent<UnityEngine.EventSystems.EventSystem>();
+                //yield return YUR.Yur.eventSystem = EventSystem.AddComponent<UnityEngine.EventSystems.EventSystem>();
             }
             else
             {
@@ -239,24 +244,40 @@ namespace YUR.SDK.Unity.UI
                 EventSystem = YUR.Yur.eventSystem.gameObject;
             }
 
-            if(EventSystem.gameObject.GetComponent<VRUiKits.Utils.VREventSystemHelper>())
-            {
-                YUR_Log.Log("VR Event System Helper already added to game object");
-            }
-            else
-            {
-                YUR_Log.Log("Adding Event System Helper and Input Module");
-                EventSystem.gameObject.AddComponent<VRUiKits.Utils.VREventSystemHelper>();
-            }
-
+            //if(EventSystem.gameObject.GetComponent<VRUiKits.Utils.VREventSystemHelper>())
+            //{
+            //    YUR_Log.Log("VR Event System Helper already added to game object");
+            //}
+            //else
+            //{
+            //    YUR_Log.Log("Adding Event System Helper and Input Module");
+            //    EventSystem.gameObject.AddComponent<VRUiKits.Utils.VREventSystemHelper>();
+            //}
+            
             if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.OCULUS)
             {
-                yield return LaserIM = EventSystem.gameObject.AddComponent<VRUiKits.Utils.OculusLaserInputModule>(); // Attach the input module for Oculus
+                var temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("LaserInputModuleOculus");
+
+                // Attach the input module for Oculus
+                
+                DestroyImmediate(EventSystem);
+                yield return EventSystem = (Instantiate(temppp) as GameObject);// = EventSystem.gameObject.AddComponent<VRUiKits.Utils.OculusLaserInputModule>();
+                EventSystem.name = "Event System";
+                UnityEngine.EventSystems.EventSystem.current = EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>();
+                YUR.Yur.eventSystem = EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>();
+                yield return LaserIM = EventSystem.GetComponent<VRUiKits.Utils.LaserInputModule>();
                 YUR_Log.Log("Oculus Input Module Added");
             }
             else if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.VIVE_STEAM2)
             {
-                yield return new VRUiKits.Utils.Steam2LaserInputDirect(ref EventSystem, out LaserIM); // Attach the input module for SteamVR 2
+                var temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("LaserInputModuleSteam2");
+
+                DestroyImmediate(EventSystem);
+                yield return EventSystem = (Instantiate(temppp) as GameObject);// = EventSystem.gameObject.AddComponent<VRUiKits.Utils.OculusLaserInputModule>();
+                EventSystem.name = "Event System";
+                UnityEngine.EventSystems.EventSystem.current = EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>();
+                YUR.Yur.eventSystem = EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>();
+                yield return LaserIM = EventSystem.GetComponent<VRUiKits.Utils.LaserInputModule>();
                 YUR_Log.Log("Steam Input Module Added");
             }
             LaserIM.platform = YUR.Yur.platform;
