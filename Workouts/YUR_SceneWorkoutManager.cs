@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 namespace YUR.SDK.Unity.Workouts
 {
@@ -36,25 +37,50 @@ namespace YUR.SDK.Unity.Workouts
 
         private void SceneManager_sceneLoaded(Scene LoadedScene, LoadSceneMode arg1)
         {
+
+            StartCoroutine(CheckScene(LoadedScene.name));
+        
+        }
+
+        public IEnumerator CheckScene(string scene_name)
+        {
+            
+            Debug.Log("Scene Loaded: " + scene_name);
             /// Check if the identifier applys to the scene in which it was applied to.
-            if (CurrentScene.name != LoadedScene.name)
+            if (CurrentScene.name != scene_name)
             {
                 WorkoutIdentifier = string.Empty;
             }
 
             for (int i = 0; i < YUR.Yur.Settings.StartWorkoutScenes.Length; i++)
             {
-                if (LoadedScene.name == YUR.Yur.Settings.StartWorkoutScenes[i])
+                Debug.Log("Index: " + i);
+                Debug.Log("Checking Scene, array size == " + YUR.Yur.Settings.StartWorkoutScenes.Length);
+                Debug.Log(" || Scene Name >>  " + YUR.Yur.Settings.StartWorkoutScenes[i]);
+                
+                if (scene_name == YUR.Yur.Settings.StartWorkoutScenes[i])
                 {
-                    Workout.StartingWorkout();
+                    
+                    Debug.Log("Loaded Scene is a workout scene, begin workout");
+                    Workouts.Workout.StartingWorkout();
+                    yield break;
                 }
-                else if(LoadedScene.name == YUR.Yur.Settings.EndWorkoutScenes[i])
+
+                Debug.Log("This scenes do not match up.");
+            }
+
+
+            for(int i = 0; i < YUR.Yur.Settings.EndWorkoutScenes.Length; i++)
+            {
+                if (scene_name == YUR.Yur.Settings.EndWorkoutScenes[i])
                 {
 
-                    Workout.EndingWorkout((string.IsNullOrEmpty(WorkoutIdentifier) ? LoadedScene.name : WorkoutIdentifier));
+                    Workout.EndingWorkout((string.IsNullOrEmpty(WorkoutIdentifier) ? scene_name : WorkoutIdentifier));
                     WorkoutIdentifier = string.Empty;
+                    yield break;
                 }
             }
+            yield break;
         }
     }
 }

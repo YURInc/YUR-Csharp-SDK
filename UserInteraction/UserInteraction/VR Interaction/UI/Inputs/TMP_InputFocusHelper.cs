@@ -8,11 +8,11 @@ namespace VRUiKits.Utils
 {
     public class TMP_InputFocusHelper : MonoBehaviour, ISelectHandler
     {
-        private VRUiKits.Utils.UIKitInputField input;
+        private InputField input;
 
         void Awake()
         {
-            input = GetComponent<VRUiKits.Utils.UIKitInputField>();
+            input = GetComponent<InputField>();
         }
 
         public void OnSelect(BaseEventData eventData)
@@ -21,7 +21,7 @@ namespace VRUiKits.Utils
             Set keyboard target explicitly for some 3rd party packages which lost focus when
             user click on keyboard.
             */
-            TMP_KeyboardManager.Target = input;
+            //TMP_KeyboardManager.Target = input;
             StartCoroutine(ActivateInputFieldWithCaret());
         }
 

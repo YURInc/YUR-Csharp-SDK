@@ -176,9 +176,10 @@ namespace YUR.SDK.Unity.UI
         }
 
 
-        IEnumerator Setup() { 
+        IEnumerator Setup() {
+            YUR_Log.Log("Setting up Profile");
             yield return User = UserManagement.YUR_UserManager.YUR_Users.CurrentUser;
-            
+            YUR_Log.Log("Retrieved the user manager");
             Title.text = User.Data_Biometrics.Name + "'s Profile";
             UpdateAge();
 

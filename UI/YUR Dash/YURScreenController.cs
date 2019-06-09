@@ -17,15 +17,23 @@ namespace YUR.SDK.Unity.UI
         public event Buttons BackButtonPressed;
         public event Buttons CloseButtonPressed;
 
+        public List<VRUiKits.Utils.UIKitInputField> InputOrder = new List<VRUiKits.Utils.UIKitInputField>();
+
         [HideInInspector]
         public GameObject BackButton;
         [HideInInspector]
         public GameObject CloseButton;
 
+        public void SetInputFieldFocus(int index)
+        {
+            if(this.InputOrder.Count > 0)
+                VRUiKits.Utils.TMP_KeyboardManager.Target = InputOrder[index];
+        }
+
         public void Start()
         {
             StartCoroutine(LoadSetupCloseBackButtons());
-
+            SetInputFieldFocus(0);
         }
 
         public IEnumerator LoadSetupCloseBackButtons()
@@ -72,6 +80,8 @@ namespace YUR.SDK.Unity.UI
             });
             if (Finished != null)
                 Finished.Invoke();
+
+            
         }
 
         public void SetBackButtonVisible(bool isEnabled)

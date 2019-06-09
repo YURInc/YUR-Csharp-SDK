@@ -12,10 +12,8 @@ namespace YUR.SDK.Unity.UI
         public static Screens_LoginEmailPassword inst;
 
         public GameObject LoginIssues;
-
         public GameObject EmailInput;
         public GameObject PasswordInput;
-
         public GameObject Submit;
 
         void Awake()
@@ -23,6 +21,12 @@ namespace YUR.SDK.Unity.UI
             inst = this;
             Finished += Screens_LoginEmailPassword_Finished;
             BackButtonPressed += Screens_LoginEmailPassword_BackButtonPressed;
+        }
+
+        void OnEnable()
+        {
+            YUR_Log.Log("Enabled Screens_LoginEmailPassword");
+            YURScreenCoordinator.ScreenCoordinator.Keyboard.SetActive(true);
         }
 
         private void Screens_LoginEmailPassword_BackButtonPressed()
@@ -42,22 +46,26 @@ namespace YUR.SDK.Unity.UI
 
         private void Screens_LoginEmailPassword_Finished()
         {
-            YURScreenCoordinator.ScreenCoordinator.Keyboard.SetActive(true, KeyboardCanvas.KeyboardStyle.KeyboardNumPad);
+            
             //LoginIssues = (GameObject)Instantiate(Resources.Load("YUR Error Report"), gameObject.transform);
             //Submit = (GameObject)Instantiate(Resources.Load("YUR Selection Button"), gameObject.transform);
             //EmailInput = (GameObject)Instantiate(Resources.Load("YUR Input"), gameObject.transform);
             //PasswordInput = (GameObject)Instantiate(Resources.Load("YUR Input"), gameObject.transform);
 
             //EmailInput.GetComponent<RectTransform>().localPosition = new Vector3(0, 39.5f, EmailInput.GetComponent<RectTransform>().localPosition.z);
+            EmailInput.GetComponent<YURInputSetup>().Input.text = "";
             EmailInput.GetComponent<YURInputSetup>().Label.text = "Email";
             EmailInput.GetComponent<YURInputSetup>().PlaceHolder.text = "i.e. \"username@gmail.com\"";
 
             //PasswordInput.GetComponent<RectTransform>().localPosition = new Vector3(0, -26.9f, PasswordInput.GetComponent<RectTransform>().localPosition.z);
+            PasswordInput.GetComponent<YURInputSetup>().Input.text = "";
             PasswordInput.GetComponent<YURInputSetup>().Label.text = "Password";
             PasswordInput.GetComponent<YURInputSetup>().PlaceHolder.text = "6 Characters or more";
 
             //Submit.GetComponent<RectTransform>().localPosition = new Vector3(0, -111, PasswordInput.GetComponent<RectTransform>().localPosition.z);
             Submit.GetComponentInChildren<TextMeshProUGUI>().text = "Submit";
+
+            LoginIssues.GetComponentInChildren<TextMeshProUGUI>().text = "";
 
             Submit.GetComponent<Button>().onClick.AddListener(delegate
             {

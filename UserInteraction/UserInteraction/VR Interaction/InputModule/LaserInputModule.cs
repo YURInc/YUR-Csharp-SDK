@@ -1,10 +1,7 @@
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
-#if UIKIT_VIVE_STEAM_2
-using Valve.VR;
-using Valve.VR.InteractionSystem;
-#endif
+
 
 namespace VRUiKits.Utils
 {
@@ -22,6 +19,7 @@ namespace VRUiKits.Utils
         /*********************/
         public static LaserInputModule instance { get { return _instance; } set { _instance = value; } }
         private static LaserInputModule _instance = null;
+
         public Camera helperCamera;
         public UIKitPointer controller;
 

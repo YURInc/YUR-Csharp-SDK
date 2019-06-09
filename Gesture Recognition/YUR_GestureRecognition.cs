@@ -13,6 +13,7 @@ namespace YUR.SDK.Unity
     public class YUR_GestureRecognition : MonoBehaviour
     {
 
+        public static YUR_GestureRecognition GestureRecInstance;
         //// The file from which to load gestures on startup (left hand).
         //// For example: "Assets/GestureRecognition/Sample_TwoHanded_Gestures.dat"
         //[SerializeField] private string LoadGesturesFile;
@@ -90,6 +91,9 @@ namespace YUR.SDK.Unity
         GCHandle me;
         void Start()
         {
+            GestureRecInstance = this;
+            DontDestroyOnLoad(GestureRecInstance);
+            
             gc.ignoreHeadRotationUpDown = true;
             gc.ignoreHeadRotationTilt = true;
 
@@ -174,9 +178,13 @@ namespace YUR.SDK.Unity
         //TODO : Restructure for Steam Input system
         void Update()
         {
+            if(Workouts.Workout.workout.workoutInProgress)
+            {
+                return;
+            }
+
             try
             {
-
     //#if !UIKIT_VIVE_STEAM_2
                 float trigger_left = Input.GetAxis(YUR.Yur.LeftControllerTrigger);
                 float trigger_right = Input.GetAxis(YUR.Yur.RightControllerTrigger);
@@ -310,7 +318,7 @@ namespace YUR.SDK.Unity
                 else if (multigesture_id == 0)
                 {
                 
-                    UI.YURScreenSystem.ScreenSystem.PresentYURGUI();
+                    UI.YURScreenSystem.ScreenSystem.PresentYURGUI(YUR.Yur.Settings.UseYURInteractionSystem);
                     Print(gc.getGestureName(Side_Left, multigesture_id));
                 }
                 else

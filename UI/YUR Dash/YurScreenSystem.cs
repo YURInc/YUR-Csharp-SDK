@@ -15,13 +15,13 @@ namespace YUR.SDK.Unity.UI
         public VRUiKits.Utils.LaserInputModule LaserIM;
         
         public bool isActivated = false;
-        public bool YURInteractionSystem = true;
 
         public static YURScreenSystem ScreenSystem;
 
         public void Awake()
         {
             ScreenSystem = this;
+            DontDestroyOnLoad(ScreenSystem);
 
 
 
@@ -34,7 +34,6 @@ namespace YUR.SDK.Unity.UI
         /// <param name="UseYURUISystem">True to use the interaction system included with YUR</param>
         public void PresentYURGUI(bool UseYURUISystem = true)
         {
-            YURInteractionSystem = UseYURUISystem;
             if(isActivated) // If screen is already present, return;
             {
                 return;
@@ -61,7 +60,7 @@ namespace YUR.SDK.Unity.UI
                // UI.Background.Backgrounds.Instance.SetBackground(YURScreenCoordinator.ScreenCoordinator.InitialMenu);
             }
 
-            StartCoroutine(_presentYURGUI()); // Setup and show the Dash
+            StartCoroutine(_presentYURGUI(UseYURUISystem)); // Setup and show the Dash
         }
 
         /// <summary>
@@ -79,7 +78,8 @@ namespace YUR.SDK.Unity.UI
             Destroy(LaserIM);
             Destroy(UIPointerKit);
             UnityEngine.EventSystems.EventSystem.current = OriginalEventSystem;
-            Destroy(EventSystem);
+            if(EventSystem != null)
+                Destroy(EventSystem);
             Destroy(GameObject.Find("Helper Camera"));
             isActivated = false;
 
@@ -89,7 +89,7 @@ namespace YUR.SDK.Unity.UI
         /// Create the dash and present it
         /// </summary>
         /// <returns></returns>
-        private IEnumerator _presentYURGUI()
+        private IEnumerator _presentYURGUI(bool UsingYURinteractionSystem)
         {
             GameObject Camera;
             try
@@ -149,15 +149,8 @@ namespace YUR.SDK.Unity.UI
             else
                 children = Camera.transform.childCount;
 
-            if(YUR.Yur.Settings.UseYURInteractionSystem == false)
-            {
-                if (YURInteractionSystem == false)
-                    yield break;
-            }
-            else if(YURInteractionSystem == false)
-            {
+            if (!UsingYURinteractionSystem) // If Not using YUR Interaction System, stop here
                 yield break;
-            }
 
             if (YUR.Yur.YURAssetBundle == null)
             {
@@ -173,6 +166,40 @@ namespace YUR.SDK.Unity.UI
                     YUR_Log.Log("Local asset bundle found!");
                     yield return YUR.Yur.YURAssetBundle = DownloadHandlerAssetBundle.GetContent(request);
                 }
+            }
+
+            ////_____________________________________________________________________________________/
+            /// Take Control of the Event System, is returned when YUR Dash is closed.
+            //_____________________________________________________________________________________/
+            OriginalEventSystem = UnityEngine.EventSystems.EventSystem.current;
+
+
+            if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.OCULUS)
+            {
+                GameObject temppp;
+                yield return temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("LaserInputModuleOculus");
+
+                YUR_Log.Log("Loaded the Laser Input Module for Oculus, instantiating");
+
+                yield return EventSystem = (Instantiate(temppp) as GameObject);// = EventSystem.gameObject.AddComponent<VRUiKits.Utils.OculusLaserInputModule>();
+
+                EventSystem.name = "Event System";
+                UnityEngine.EventSystems.EventSystem.current = EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>();
+                YUR.Yur.eventSystem = EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>();
+
+                yield return LaserIM = EventSystem.GetComponent<VRUiKits.Utils.LaserInputModule>();
+                YUR_Log.Log("Oculus Input Module Added");
+            }
+            else if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.VIVE_STEAM2)
+            {
+                var temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("LaserInputModuleSteam2");
+
+                yield return EventSystem = (Instantiate(temppp) as GameObject);// = EventSystem.gameObject.AddComponent<VRUiKits.Utils.OculusLaserInputModule>();
+                EventSystem.name = "Event System";
+                UnityEngine.EventSystems.EventSystem.current = EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>();
+                YUR.Yur.eventSystem = EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>();
+                yield return LaserIM = EventSystem.GetComponent<VRUiKits.Utils.LaserInputModule>();
+                YUR_Log.Log("Steam Input Module Added");
             }
 
             if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.OCULUS) /// If the platform is defined as being Oculus, use the Camera object to locate the Controllers
@@ -232,17 +259,24 @@ namespace YUR.SDK.Unity.UI
 
                 }
             }
-            ////_____________________________________________________________________________________/
-            /// Take Control of the Event System, is returned when YUR Dash is closed.
-            //_____________________________________________________________________________________/
-            OriginalEventSystem = UnityEngine.EventSystems.EventSystem.current;
+
+            LaserIM.platform = YUR.Yur.platform;
+            LaserIM.pointer = (leftHanded ? VRUiKits.Utils.Pointer.LeftHand : VRUiKits.Utils.Pointer.RightHand);
+
+            if (!instantiatedUIKit) // If UIPointerKit not previously instantiated
+            {
+                var temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("UIKitPointer");
+                UIPointerKit = Instantiate(temppp);
+                //UIPointerKit = (GameObject)Instantiate(Resources.Load("UIKitPointer"));
+            }
+
 
             //YUR_Log.Log("Checking for event system...");
             //if (YUR.Yur.eventSystem == null) // If there is no event system, create a new gameobject and attach an Event System Component
             //{
             //    YUR_Log.Log("None found, create event system...");
             //    //EventSystem = new GameObject("EventSystem");
-                
+
             //    //yield return YUR.Yur.eventSystem = EventSystem.AddComponent<UnityEngine.EventSystems.EventSystem>();
             //}
             //else
@@ -260,41 +294,8 @@ namespace YUR.SDK.Unity.UI
             //    YUR_Log.Log("Adding Event System Helper and Input Module");
             //    EventSystem.gameObject.AddComponent<VRUiKits.Utils.VREventSystemHelper>();
             //}
-            
-            if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.OCULUS)
-            {
-                var temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("LaserInputModuleOculus");
 
-                // Attach the input module for Oculus
-                
-                
-                yield return EventSystem = (Instantiate(temppp) as GameObject);// = EventSystem.gameObject.AddComponent<VRUiKits.Utils.OculusLaserInputModule>();
-                EventSystem.name = "Event System";
-                UnityEngine.EventSystems.EventSystem.current = EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>();
-                YUR.Yur.eventSystem = EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>();
-                yield return LaserIM = EventSystem.GetComponent<VRUiKits.Utils.LaserInputModule>();
-                YUR_Log.Log("Oculus Input Module Added");
-            }
-            else if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.VIVE_STEAM2)
-            {
-                var temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("LaserInputModuleSteam2");
 
-                yield return EventSystem = (Instantiate(temppp) as GameObject);// = EventSystem.gameObject.AddComponent<VRUiKits.Utils.OculusLaserInputModule>();
-                EventSystem.name = "Event System";
-                UnityEngine.EventSystems.EventSystem.current = EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>();
-                YUR.Yur.eventSystem = EventSystem.GetComponent<UnityEngine.EventSystems.EventSystem>();
-                yield return LaserIM = EventSystem.GetComponent<VRUiKits.Utils.LaserInputModule>();
-                YUR_Log.Log("Steam Input Module Added");
-            }
-            LaserIM.platform = YUR.Yur.platform;
-            LaserIM.pointer = (leftHanded ? VRUiKits.Utils.Pointer.LeftHand : VRUiKits.Utils.Pointer.RightHand);
-
-            if (!instantiatedUIKit) // If UIPointerKit not previously instantiated
-            {
-                var temppp = YUR.Yur.YURAssetBundle.LoadAsset<GameObject>("UIKitPointer");
-                UIPointerKit = Instantiate(temppp);
-                //UIPointerKit = (GameObject)Instantiate(Resources.Load("UIKitPointer"));
-            }
         }
 
         public void Update() ///  Used for testing
@@ -302,7 +303,7 @@ namespace YUR.SDK.Unity.UI
 
             if (Input.GetKey("a"))
             {
-                PresentYURGUI(); // Press the "a" key to present YUR Dash
+                PresentYURGUI(YUR.Yur.Settings.UseYURInteractionSystem); // Press the "a" key to present YUR Dash
             }
             if(Input.GetKey("x")) // Press the "x" key to close YUR Dash
             {

@@ -22,15 +22,15 @@ namespace VRUiKits.Utils
 
         [Header("Essentials")]
         public Transform keys;
-        public static VRUiKits.Utils.UIKitInputField Target
+        public static UIKitInputField Target
         {
             get
             {
                 var _this = EventSystem.current.currentSelectedGameObject;
 
-                if (null != _this && null != _this.GetComponent<VRUiKits.Utils.UIKitInputField>())
+                if (null != _this && null != _this.GetComponent<UIKitInputField>())
                 {
-                    return _this.GetComponent<VRUiKits.Utils.UIKitInputField>();
+                    return _this.GetComponent<UIKitInputField>();
                 }
 
                 if (null != target)
@@ -52,9 +52,10 @@ namespace VRUiKits.Utils
          Record a helper target for some 3rd party packages which lost focus when
          user click on keyboard.
          */
-        private static VRUiKits.Utils.UIKitInputField target;
+        private static UIKitInputField target;
         private string Input
         {
+
             get
             {
                 if (null == Target)
@@ -72,10 +73,30 @@ namespace VRUiKits.Utils
                 }
 
                 Target.text = value;
-                // Force target input field activated if losing selection
-                Target.ActivateInputField();
-                Target.MoveTextEnd(false);
             }
+            //get
+            //{
+            //    if (null == Target)
+            //    {
+            //        return "";
+            //    }
+
+            //    return Target.text;
+            //}
+            //set
+            //{
+            //    if (null == Target)
+            //    {
+            //        return;
+            //    }
+
+            //    Target.text = value;
+            //    // Force target input field activated if losing selection
+            //    Target.ActivateInputField();
+            //    Target.MoveTextEnd(false);
+            //}
+
+
         }
         private Key[] keyList;
         private bool capslockFlag;

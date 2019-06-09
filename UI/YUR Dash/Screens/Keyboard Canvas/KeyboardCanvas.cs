@@ -10,6 +10,7 @@ namespace YUR.SDK.Unity.UI
         private Canvas canvas;
 
         public GameObject Keyboard;
+
         public enum KeyboardStyle
         {
             KeyboardNumPad
@@ -18,17 +19,7 @@ namespace YUR.SDK.Unity.UI
         public void SetActive(bool isVisible, KeyboardStyle style = KeyboardStyle.KeyboardNumPad)
         {
             gameObject.SetActive(isVisible);
-            if (Keyboard)
-            {
-                Keyboard.SetActive(isVisible);
-            }
-            //else
-            //{
-            //    if (style == KeyboardStyle.KeyboardNumPad)
-            //    {
-            //        Keyboard = (GameObject)Instantiate(Resources.Load("YUR Keyboard NumPad"), gameObject.transform);
-            //    }
-            //}
+            Keyboard.SetActive(isVisible);
         }
     }
 }

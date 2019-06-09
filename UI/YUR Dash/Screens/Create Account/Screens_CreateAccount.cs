@@ -136,30 +136,16 @@ namespace YUR.SDK.Unity.UI
 
             SetBackButtonVisible(true);
 
-
             YURScreenCoordinator.ScreenCoordinator.Keyboard.SetActive(true, KeyboardCanvas.KeyboardStyle.KeyboardNumPad);
-            //LoginIssues = (GameObject)Instantiate(Resources.Load("YUR Error Report"), gameObject.transform);
-            //Submit = (GameObject)Instantiate(Resources.Load("YUR Selection Button"), SignUp.transform);
-            //EmailInput = (GameObject)Instantiate(Resources.Load("YUR Input"), SignUp.transform);
-            //PasswordInput = (GameObject)Instantiate(Resources.Load("YUR Input"), SignUp.transform);
-            //NameInput = (GameObject)Instantiate(Resources.Load("YUR Input"), SignUp.transform);
-
-            //EmailInput.GetComponent<RectTransform>().localPosition = new Vector3(0, 115f, EmailInput.GetComponent<RectTransform>().localPosition.z);
             EmailInput.GetComponent<YURInputSetup>().Label.text = "Email";
             EmailInput.GetComponent<YURInputSetup>().PlaceHolder.text = "i.e. \"username@gmail.com\"";
-
-            //PasswordInput.GetComponent<RectTransform>().localPosition = new Vector3(0, 55, PasswordInput.GetComponent<RectTransform>().localPosition.z);
+            
             PasswordInput.GetComponent<YURInputSetup>().Label.text = "Password";
             PasswordInput.GetComponent<YURInputSetup>().PlaceHolder.text = "6 Characters or more";
 
-
-            //NameInput.GetComponent<RectTransform>().localPosition = new Vector3(0, -5, NameInput.GetComponent<RectTransform>().localPosition.z);
             NameInput.GetComponent<YURInputSetup>().Label.text = "Name";
             NameInput.GetComponent<YURInputSetup>().PlaceHolder.text = "i.e John Smith";
-            //NameInput.GetComponent<TMP_InputField>().contentType = TMP_InputField.ContentType.Name;
-
-
-            //Submit.GetComponent<RectTransform>().localPosition = new Vector3(0, -60, PasswordInput.GetComponent<RectTransform>().localPosition.z);
+           
             Submit.GetComponentInChildren<TextMeshProUGUI>().text = "Create Account";
 
             Submit.GetComponent<Button>().onClick.AddListener(delegate
@@ -178,8 +164,6 @@ namespace YUR.SDK.Unity.UI
                 }
                 LoginIssues.GetComponentInChildren<TextMeshProUGUI>().text = Login_Issues;
             });
-
-
         }
 
         private string YUR_UserManager_Bad_Login(string response)

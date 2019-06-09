@@ -61,6 +61,8 @@ namespace YUR.SDK.Unity
 
             workout = gameObject.AddComponent<Workouts.Workout>();
             calories = new GameObject("YUR Calorie Display Object").AddComponent<Tracking.Calories>();
+            DontDestroyOnLoad(workout); // TODO Check DontDestroyOnLoads are not over done. Placed everywhere as a quick fix
+            DontDestroyOnLoad(calories);
 
             YUR_UserManager.Successful_Login += new YUR_UserManager.Login_Status_Changed(Active_User_Logged_In_Successfully);
             YUR_UserManager.Bad_Login += new YUR_UserManager.Login_Status_Changed(Active_User_Unable_To_Login);
@@ -131,6 +133,7 @@ namespace YUR.SDK.Unity
         public static YUR_Main Setup_YUR_Object(GameObject game_object, string game_ID = "yurapp", bool debug = false, bool error_debug = true, bool server_debug = true, bool log_to_file = false, bool auto_sign_in = false, bool editor_debugging = true)
         {
             YUR_Main yur = game_object.AddComponent<YUR_Main>();
+            DontDestroyOnLoad(yur);
             yur.StartUp(game_ID, 1 / Time.fixedDeltaTime, debug, error_debug, server_debug, log_to_file, auto_sign_in, editor_debugging);
             return yur;
         }

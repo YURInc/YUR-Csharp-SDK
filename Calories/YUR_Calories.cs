@@ -62,6 +62,9 @@ namespace YUR.SDK.Unity.Tracking
         {
             CalorieCounter = this;
             CalorieDisplayObject = new GameObject("YUR Calorie Canvas");
+
+            DontDestroyOnLoad(CalorieDisplayObject);
+            DontDestroyOnLoad(CalorieCounter);
         }
 
         public static float EndCalorieCounter()

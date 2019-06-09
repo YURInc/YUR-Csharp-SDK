@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// TODO : Rename VRUiKits.Utils namespace
 namespace VRUiKits.Utils
 {
     public class Util : MonoBehaviour

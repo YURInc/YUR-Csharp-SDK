@@ -48,7 +48,9 @@ namespace YUR.SDK.Unity
 
         public void Awake()
         {
-            calorieCounter = this;
+            if(calorieCounter == null)
+                calorieCounter = this;
+            DontDestroyOnLoad(calorieCounter);
             Calories.StartCounting += StartCounting;
             Calories.EndCounting += StopCounting;
             Debug.Log("Calorie Counter is initialized");
@@ -70,6 +72,7 @@ namespace YUR.SDK.Unity
                 Vector3 YUR_Direction = Vector3.zero;
                 if (YUR.Yur.CalorieDisplay)
                 {
+                    DontDestroyOnLoad(YUR.Yur.CalorieDisplay);
                     Debug.Log("Calorie Display found, setting position and rotation!");
                     Calories.CalorieCounter.transform.SetParent(YUR.Yur.CalorieDisplay.transform);
                     Calories.CalorieCounter.transform.localPosition = YUR.Yur.CalorieDisplayPositionOffset;
@@ -80,6 +83,8 @@ namespace YUR.SDK.Unity
                 }
                 else
                 {
+                    DontDestroyOnLoad(YUR.Yur.CalorieDisplay);
+
                     YUR_Position = YUR.Yur.Camera.transform.position;
                     YUR_Direction = YUR.Yur.Camera.transform.forward;
                     YUR_Direction.y = 0;
@@ -206,6 +211,7 @@ namespace YUR.SDK.Unity
         {
             while (true)
             {
+                YUR_Log.Log("Calories: " + Calories.CalorieCounter.totalCaloriesBurnt);
                 IsRunning = true;
                 foreach (XRNodeState ns in nodeStates)
                 {

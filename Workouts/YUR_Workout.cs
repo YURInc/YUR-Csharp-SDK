@@ -44,7 +44,11 @@ namespace YUR.SDK.Unity.Workouts
                     return;
                 }
             }
+
             workout = this;
+            DontDestroyOnLoad(workout);
+
+
             gameID = GameID;
 
             StartWorkout += Workout_StartWorkout;

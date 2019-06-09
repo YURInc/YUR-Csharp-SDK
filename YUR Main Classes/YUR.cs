@@ -12,12 +12,23 @@ namespace YUR.SDK.Unity
     [AddComponentMenu("YUR/YUR")]
     public partial class YUR : MonoBehaviour
     {
+
         public void Start()
         {
-            _yur = this;
+
             if (!enabled)
             {
                 YUR_Log.Error("YUR is not enabled!");
+                return;
+            }
+
+            if (YUR.Yur == null)
+            {
+                _yur = this;
+            }
+            else
+            {
+                YUR_Log.Log("YUR is already setup");
                 return;
             }
 
@@ -38,6 +49,8 @@ namespace YUR.SDK.Unity
                 WorkoutsManager.transform.SetParent(YUR_GO.transform);
                 _sceneWorkoutManager = WorkoutsManager.AddComponent<Workouts.YUR_SceneWorkoutManager>();
             }
+            CalorieDisplay = new GameObject("Calorie Display"); //TODO Calorie Display object is most likely instantiated elsewhere
+            DontDestroyOnLoad(CalorieDisplay);
 
 
             /// Setup all AOT variables inside here
@@ -54,6 +67,7 @@ namespace YUR.SDK.Unity
             YUR_Main.Completed_Startup += YUR_Main_Completed_Startup;
             Fit = YUR_Script_Helper.Setup_YUR_Object(YUR_GO, Settings.GameID, Settings.debugging, Settings.ErrorDebugging, Settings.ServerDebugging, Settings.WriteDebuggingToFile, Settings.AutomaticallySignInUser);
             YURGesture = YUR_GO.AddComponent<YUR_GestureRecognition>();
+            
             platform = Settings.platform;
 
             if(platform != VRUiKits.Utils.VRPlatform.VIVE_STEAM2)
@@ -62,9 +76,16 @@ namespace YUR.SDK.Unity
                 RightControllerTrigger = Settings.RightControllerButton;
             }
 
-            
+            this.gameObject.transform.SetParent(YUR_GO.transform);
+            DontDestroyOnLoad(this);
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         }
-        
+
+        private void SceneManager_sceneLoaded(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.LoadSceneMode arg1)
+        {
+            Camera = GameObject.FindGameObjectWithTag(Settings.CameraTag);
+        }
+
         /// <summary>
         /// Invoked when YUR has finished setting up
         /// </summary>
@@ -75,6 +96,7 @@ namespace YUR.SDK.Unity
             UserManagement.YUR_UserManager.Successful_Login += YUR_UserManager_Successful_Login;
             UserManagement.YUR_UserManager.Log_Out += YUR_UserManager_Log_Out;
             PrepareScreenSystem(user_found);
+            
         }
 
         /// <summary>
@@ -202,6 +224,7 @@ namespace YUR.SDK.Unity
                 YURAssetBundle = DownloadHandlerAssetBundle.GetContent(request);
                 var dashPre = YURAssetBundle.LoadAsset<GameObject>("YUR");
                 YUR_Dash = Instantiate(dashPre);
+                DontDestroyOnLoad(YUR_Dash);
                 YUR_Log.Log("YUR Dash has been instantiated");
 
                 // YUR DASH loaded, check to see if a new version is available to download and automatically install
@@ -565,7 +588,6 @@ namespace YUR.SDK.Unity
         /// <summary>
         /// Loaded on runtime, managed by helper script in editor
         /// </summary>
-        [HideInInspector]
         public YURSettingsScriptableObject Settings;
 
         public static YUR Yur { get { return _yur; } set { _yur = value; } }
@@ -588,7 +610,11 @@ namespace YUR.SDK.Unity
         public CalorieCounter calorieCounter;
         [HideInInspector]
         public YUR_GestureRecognition YURGesture;
-        public GameObject Camera { get { return _mainCamera; } set { _mainCamera = value; } }
+        public GameObject Camera { get {
+                Debug.Log("Retrieving Camera");
+                return _mainCamera; } set {
+                Debug.Log("Setting camera object", value);
+                _mainCamera = value; } }
         private GameObject _mainCamera;
 
         [HideInInspector]

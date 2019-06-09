@@ -48,8 +48,7 @@ namespace YUR.SDK.Unity.UI {
                 else
                 {
                     ActiveControllers.Add(transform.GetChild(i).GetComponent<YURScreenController>());
-                    transform.GetChild(i).gameObject.SetActive(false);
-                    
+                    transform.GetChild(i).gameObject.SetActive(false);  
                 }
             }
 
