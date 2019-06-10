@@ -125,17 +125,42 @@ namespace YUR.SDK.Unity
             }
         }
 
-
-
-
-
-        /// <summary>
-        /// Determine users settings and begin counting calories
-        /// </summary>
-        public void StartCounting()
+        public IEnumerator WaitForOVRManager(bool Start)
         {
-            Debug.Log("Starting to count calories");
+            if (Start)
+            {
+                while (!UnityOculusLibrary.OculusHelpers.IsOVRManager())
+                {
+                    for (int i = 0; i < 20; i++)
+                    {
+                        yield return new WaitForFixedUpdate();
 
+                    }
+                    
+                }
+                Calories.CalorieCounter.gameObject.transform.SetParent(UnityOculusLibrary.OculusHelpers.GetPlayer().transform);
+                PositionDisplay();
+                yield break;
+            }
+            else
+            {
+                while (!UnityOculusLibrary.OculusHelpers.IsOVRManager())
+                {
+                    for (int i = 0; i < 20; i++)
+                    {
+                        yield return new WaitForFixedUpdate();
+
+                    }
+                    
+                }
+                Calories.CalorieCounter.gameObject.transform.SetParent(YUR.Yur.YURGameObject.transform);
+                gameObject.SetActive(false);
+                yield break;
+            }
+        }
+
+        public void PositionDisplay()
+        {
             Vector3 YUR_Position = Vector3.zero;
             Vector3 YUR_Direction = Vector3.zero;
             if (YUR.Yur.CalorieDisplay)
@@ -155,6 +180,14 @@ namespace YUR.SDK.Unity
                     YUR_Position.y, YUR_Position.z + (YUR_Direction.z * 5)),
                     Quaternion.LookRotation(YUR_Direction));
             }
+        }
+
+        /// <summary>
+        /// Determine users settings and begin counting calories
+        /// </summary>
+        public void StartCounting()
+        {
+
 
             string UsersSex = UserManagement.YUR_UserManager.YUR_Users.CurrentUser.Data_Biometrics.Sex;
             if (UsersSex == "male")
@@ -181,8 +214,31 @@ namespace YUR.SDK.Unity
             CalorieCountDisplay.text = "0";
             Calories.CalorieCounter.totalCaloriesBurnt = 0;
             gameObject.SetActive(true);
+            if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.OCULUS)
+            {
+                if (UnityOculusLibrary.OculusHelpers.IsOVRManager())
+                {
+
+                    Calories.CalorieCounter.gameObject.transform.SetParent(UnityOculusLibrary.OculusHelpers.GetPlayer().transform);
+                    PositionDisplay();
+                }
+                else
+                {
+                    StartCoroutine(WaitForOVRManager(true));
+                }
+            }
+
+            Debug.Log("Starting to count calories");
+
+
             isSetup = true;
             Completed?.Invoke();
+        }
+
+        void OnDisable()
+        {
+            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(Calories.CalorieCounter);
         }
 
         /// <summary>
@@ -191,9 +247,10 @@ namespace YUR.SDK.Unity
         /// <returns></returns>
         public void StopCounting()
         {
+            DontDestroyOnLoad(Calories.CalorieCounter);
             Debug.Log("Stopping calorie counter!");
             StopAllCoroutines();
-            gameObject.SetActive(false);
+            
         }
 
         public void FixedUpdate()

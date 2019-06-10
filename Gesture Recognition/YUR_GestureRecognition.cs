@@ -65,8 +65,10 @@ namespace YUR.SDK.Unity
         public const int Side_Left = 0;
         public const int Side_Right = 1;
 
-        private GameObject left_hand;
-        private GameObject right_hand;
+        //[SerializeField]
+        //private GameObject left_hand;
+        //[SerializeField]
+        //private GameObject right_hand;
         // The game object associated with the currently active controller (if any):
         private GameObject active_controller = null;
         //private MultiGestureRecognition gr = new MultiGestureRecognition(2);
@@ -99,39 +101,42 @@ namespace YUR.SDK.Unity
 
             if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.OCULUS)
             {
-                YUR_Log.Log("Using the Oculus version of YUR");
-                for (int i = 0; i < YUR.Yur.Camera.transform.parent.childCount; i++)
-                {
-                    if (YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name.Contains("LeftHand"))
-                    {
-                        Debug.Log("<b>Found Controller: </b>" + YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name, YUR.Yur.Camera.transform.parent.GetChild(i).gameObject);
-                        left_hand = YUR.Yur.Camera.transform.parent.GetChild(i).gameObject;
-                    }
-                    else if (YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name.Contains("RightHand"))
-                    {
-                        Debug.Log("<b>Found Controller: </b>" + YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name, YUR.Yur.Camera.transform.parent.GetChild(i).gameObject);
-                        right_hand = YUR.Yur.Camera.transform.parent.GetChild(i).gameObject;
-                    }
-                }
-            }
-            else if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.VIVE_STEAM2)
-            {
-                for (int i = 0; i < YUR.Yur.Camera.transform.parent.childCount; i++)
-                {
-                    if (YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name.Contains("left"))
-                    {
-                        Debug.Log("<b>Found Controller: </b>" + YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name, YUR.Yur.Camera.transform.parent.GetChild(i).gameObject);
-                        left_hand = YUR.Yur.Camera.transform.parent.GetChild(i).gameObject;
-                    }
-                    else if (YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name.Contains("right"))
-                    {
-                        Debug.Log("<b>Found Controller: </b>" + YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name, YUR.Yur.Camera.transform.parent.GetChild(i).gameObject);
-                        right_hand = YUR.Yur.Camera.transform.parent.GetChild(i).gameObject;
-                    }
-                }
+                //YUR_Log.Log("Using the Oculus version of YUR");
+                //for (int i = 0; i < YUR.Yur.Camera.transform.parent.childCount; i++)
+                //{
+                //    if (YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name.Contains("LeftHand"))
+                //    {
+                //        Debug.Log("<b>Found Controller: </b>" + YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name, YUR.Yur.Camera.transform.parent.GetChild(i).gameObject);
+                //        left_hand = YUR.Yur.Camera.transform.parent.GetChild(i).gameObject;
+                //    }
+                //    else if (YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name.Contains("RightHand"))
+                //    {
+                //        Debug.Log("<b>Found Controller: </b>" + YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name, YUR.Yur.Camera.transform.parent.GetChild(i).gameObject);
+                //        right_hand = YUR.Yur.Camera.transform.parent.GetChild(i).gameObject;
+                //    }
+                //}
+
+                //    left_hand = UnityOculusLibrary.OculusHelpers.GetHand(true);
+                //    right_hand = UnityOculusLibrary.OculusHelpers.GetHand(false);
+                //}
+                //else if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.VIVE_STEAM2)
+                //{
+                //    for (int i = 0; i < YUR.Yur.Camera.transform.parent.childCount; i++)
+                //    {
+                //        if (YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name.Contains("left"))
+                //        {
+                //            Debug.Log("<b>Found Controller: </b>" + YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name, YUR.Yur.Camera.transform.parent.GetChild(i).gameObject);
+                //            left_hand = YUR.Yur.Camera.transform.parent.GetChild(i).gameObject;
+                //        }
+                //        else if (YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name.Contains("right"))
+                //        {
+                //            Debug.Log("<b>Found Controller: </b>" + YUR.Yur.Camera.transform.parent.GetChild(i).gameObject.name, YUR.Yur.Camera.transform.parent.GetChild(i).gameObject);
+                //            right_hand = YUR.Yur.Camera.transform.parent.GetChild(i).gameObject;
+                //        }
+                //    }
             }
 
-            if(gc.loadFromBuffer(GestureBufferDat) == false)
+            if (gc.loadFromBuffer(GestureBufferDat) == false)
             {
                 Debug.Log("Gesture Recognition Data could not be loaded.", this);
             }
@@ -182,7 +187,6 @@ namespace YUR.SDK.Unity
             {
                 return;
             }
-
             try
             {
     //#if !UIKIT_VIVE_STEAM_2
@@ -232,11 +236,11 @@ namespace YUR.SDK.Unity
                     {
                         // User still dragging or still moving after trigger pressed
                         //GameObject left_hand = left_hand;
-                        gc.contdStroke(Side_Left, left_hand.transform.position, left_hand.transform.rotation);
+                        gc.contdStroke(Side_Left, YUR.Yur.LeftHand.transform.position, YUR.Yur.LeftHand.transform.rotation);
                         // Show the stroke by instatiating new objects
                         //addToStrokeTrail(left_hand.transform.position);
-                        float contoller_motion = (left_hand.transform.position - controller_motion_last_left).magnitude;
-                        controller_motion_last_left = left_hand.transform.position;
+                        float contoller_motion = (YUR.Yur.LeftHand.transform.position - controller_motion_last_left).magnitude;
+                        controller_motion_last_left = YUR.Yur.LeftHand.transform.position;
                         controller_motion_distance_left = (controller_motion_distance_left + contoller_motion) * 0.5f; // averaging
                         if (controller_motion_distance_left > ControllerMotionDistanceThreshold)
                         {
@@ -257,11 +261,11 @@ namespace YUR.SDK.Unity
                     {
                         // User still dragging or still moving after trigger pressed
                         //GameObject right_hand = GameObject.Find("Right Hand");
-                        gc.contdStroke(Side_Right, right_hand.transform.position, right_hand.transform.rotation);
+                        gc.contdStroke(Side_Right, YUR.Yur.RightHand.transform.position, YUR.Yur.RightHand.transform.rotation);
                         // Show the stroke by instatiating new objects
                         //addToStrokeTrail(right_hand.transform.position);
-                        float contoller_motion = (right_hand.transform.position - controller_motion_last_right).magnitude;
-                        controller_motion_last_right = right_hand.transform.position;
+                        float contoller_motion = (YUR.Yur.RightHand.transform.position - controller_motion_last_right).magnitude;
+                        controller_motion_last_right = YUR.Yur.RightHand.transform.position;
                         controller_motion_distance_right = (controller_motion_distance_right + contoller_motion) * 0.5f; // averaging
                         if (controller_motion_distance_right > ControllerMotionDistanceThreshold)
                         {

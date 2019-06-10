@@ -29,8 +29,11 @@ namespace YUR.SDK.Unity
             else
             {
                 YUR_Log.Log("YUR is already setup");
+                DestroyImmediate(this);
                 return;
             }
+
+           
 
             /// Instantiate YUR Main Object ///
             YUR_GO = new GameObject("[YUR]"); 
@@ -59,7 +62,20 @@ namespace YUR.SDK.Unity
                 AutoUpdate = false;
             }
 
-            _mainCamera = GameObject.FindGameObjectWithTag(Settings.CameraTag);
+            var mainCameras = GameObject.FindGameObjectsWithTag(Settings.CameraTag);
+            if(mainCameras.Length > 0)
+            {
+                foreach (var camera in mainCameras)
+                {
+                    _mainCamera = camera;
+                    break;
+                }
+            }
+            else
+            {
+                YUR_Log.Warning("Unable to locate the Camera using tag...");
+            }
+
             YUR_Log.Log("Starting to get YUR Object and startup system");
             StartCoroutine(InstantiateYURObjects());
             _eventSystem = UnityEngine.EventSystems.EventSystem.current;
@@ -78,13 +94,13 @@ namespace YUR.SDK.Unity
 
             this.gameObject.transform.SetParent(YUR_GO.transform);
             DontDestroyOnLoad(this);
-            UnityEngine.SceneManagement.SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+            //UnityEngine.SceneManagement.SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         }
 
-        private void SceneManager_sceneLoaded(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.LoadSceneMode arg1)
-        {
-            Camera = GameObject.FindGameObjectWithTag(Settings.CameraTag);
-        }
+        //private void SceneManager_sceneLoaded(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.LoadSceneMode arg1)
+        //{
+        //    Camera = GameObject.FindGameObjectWithTag(Settings.CameraTag);
+        //}
 
         /// <summary>
         /// Invoked when YUR has finished setting up
@@ -610,12 +626,64 @@ namespace YUR.SDK.Unity
         public CalorieCounter calorieCounter;
         [HideInInspector]
         public YUR_GestureRecognition YURGesture;
-        public GameObject Camera { get {
-                Debug.Log("Retrieving Camera");
-                return _mainCamera; } set {
+
+        public GameObject LeftHand
+        {
+            get
+            {
+                if(Utilities.GameObjectExtensions.IsDestroyed(_leftHand))
+                {
+                    YUR_Log.Log("Hand was destroyed or not set prior, attempting to acquire left hand");
+                    Utilities.YUR_PlayerPosition.GetHandGameObject(ref _leftHand, true);
+                }
+                return _leftHand;
+            }
+            set
+            {
+                _leftHand = value;
+            }
+        }
+
+        public GameObject RightHand
+        {
+            get
+            {
+                if (Utilities.GameObjectExtensions.IsDestroyed(_rightHand))
+                {
+                    YUR_Log.Log("Hand was destroyed or not set prior, attempting to acquire right hand");
+                    Utilities.YUR_PlayerPosition.GetHandGameObject(ref _rightHand, false);
+                }
+                return _rightHand;
+            }
+            set
+            {
+                _rightHand = value;
+            }
+        }
+
+        [SerializeField]
+        private GameObject _leftHand;
+        [SerializeField]
+        private GameObject _rightHand;
+        public GameObject Camera
+        {
+            get
+            {
+                if(Utilities.GameObjectExtensions.IsDestroyed(_mainCamera))
+                {
+                    Utilities.YUR_PlayerPosition.GetCameraObject(ref _mainCamera);
+                }
+                return _mainCamera;
+            }
+            set
+            {
                 Debug.Log("Setting camera object", value);
-                _mainCamera = value; } }
-        private GameObject _mainCamera;
+                _mainCamera = value;
+            }
+        }
+
+        [SerializeField]
+        public GameObject _mainCamera;
 
         [HideInInspector]
         public GameObject GUITransform;
@@ -635,11 +703,9 @@ namespace YUR.SDK.Unity
         [HideInInspector]
         public float YURGUIScale;
 
-        [HideInInspector]
         public GameObject CalorieDisplay;
-        [HideInInspector]
+
         public Vector3 CalorieDisplayPositionOffset;
-        [HideInInspector]
         public Vector3 CalorieDisplayRotationOffset;
 
         /// <summary>
@@ -684,6 +750,8 @@ namespace YUR.SDK.Unity
         public string LeftControllerTrigger;
         [HideInInspector]
         public string RightControllerTrigger;
+
+        public static YUR EditorReference;
 
 
     }

@@ -381,6 +381,8 @@
     <Compile Include="UserManagement\Login_Create_Logout.cs" />
     <Compile Include="Utilities\Canvas_Generation.cs" />
     <Compile Include="Utilities\YUR_Account.cs" />
+    <Compile Include="Utilities\YUR_PlayerPosition.cs" />
+    <Compile Include="Utilities\YUR_UnityExtensions.cs" />
     <Compile Include="Workouts\WorkoutController.cs" />
     <Compile Include="YUR Main Classes\YUR.cs" />
     <Compile Include="YUR Main Classes\YURSettingsScriptableObject.cs" />

@@ -91,18 +91,8 @@ namespace YUR.SDK.Unity.UI
         /// <returns></returns>
         private IEnumerator _presentYURGUI(bool UsingYURinteractionSystem)
         {
-            GameObject Camera;
-            try
-            {
-                Camera = YUR.Yur.Camera;
-                YUR_Log.Log("Camera name: " + Camera.name);
-            }
-            catch(System.Exception e)
-            {
-                Debug.LogError("MainCamera tag is not set. YUR Dash will not work unless this is changed");
-                Debug.LogError("Error: " + e);
-                yield break;
-            }
+            
+
 
             Vector3 YUR_Position;
             Vector3 YUR_Direction;
@@ -111,7 +101,7 @@ namespace YUR.SDK.Unity.UI
             YURScreenCoordinator.ScreenCoordinator.gameObject.SetActive(true);
             YURScreenCoordinator.ScreenCoordinator.Background.GetComponent<UnityEngine.UI.Image>().color = YUR.Yur.BackgroundColor;
 
-
+            GameObject Camera = YUR.Yur.Camera;
             /// If a previously specified gameobject is to be used for the location of dash.
             if (YUR.Yur.GUITransform != null)
             {
@@ -123,6 +113,7 @@ namespace YUR.SDK.Unity.UI
             }
             else /// Else, position the dash relative to the camera position;
             {
+
                 YUR_Log.Log("Moving Dash in front of player");
                 YUR_Position = Camera.transform.position;
                 YUR_Direction = Camera.transform.forward;

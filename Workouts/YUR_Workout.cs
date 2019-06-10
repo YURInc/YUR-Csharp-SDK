@@ -45,7 +45,8 @@ namespace YUR.SDK.Unity.Workouts
                 }
             }
 
-            workout = this;
+            if(workout == null || !workout)
+                workout = this;
             DontDestroyOnLoad(workout);
 
 
