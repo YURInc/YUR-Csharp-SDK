@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using OVR;
+using UnityEngine.Scripting;
+[assembly: Preserve]
 
 namespace UnityOculusLibrary
 {
@@ -14,10 +16,18 @@ namespace UnityOculusLibrary
 
         public static bool IsOVRManager()
         {
-            if (OVRManager.instance.gameObject != null && !ReferenceEquals(OVRManager.instance.gameObject, null))
+            Debug.Log("Checking to see if OVRManager is availble");
+            if (OVRManager.instance != null && !ReferenceEquals(OVRManager.instance, null))
+            {
+                Debug.Log("OVRManager is not null and is referenced");
                 return true;
+            }
             else
+            {
+                Debug.Log("OVRManager is null and is not referenced");
                 return false;
+            }
+                
         }
 
         public static GameObject GetHand(bool lefthand)

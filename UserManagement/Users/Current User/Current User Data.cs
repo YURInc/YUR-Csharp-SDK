@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
@@ -72,12 +73,18 @@ namespace YUR.SDK.Unity
                 ALTERED_userGameData = true;
         }
 
+        IEnumerator SavingAll(bool force)
+        {
+            Save(Data_Biometrics, force);
+            yield return new WaitForFixedUpdate();
+            Save(Data_General_Calories, force);
+            yield return new WaitForFixedUpdate();
+            Save(Data_Current_Game, force);
+            yield break;
+        }
         public void SaveAll(bool force = false)
         {
-
-            Save(Data_Biometrics, force);
-            Save(Data_General_Calories, force);
-            Save(Data_Current_Game, force);
+            StartCoroutine(SavingAll(force));
         }
 
         public void Save<T>(T UserClass, bool force = false)

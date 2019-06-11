@@ -88,7 +88,7 @@ namespace YUR.SDK.Unity.UserManagement
             return "Logging in User";
         }
 
-        internal void SavingData<T>(T ClassToPass)
+        internal IEnumerator SavingData<T>(T ClassToPass)
         {
             if(ClassToPass is UserData.Biometrics)
             {
@@ -102,6 +102,7 @@ namespace YUR.SDK.Unity.UserManagement
             {
                 StartCoroutine(Set_UserData(YUR_CurrentUser.DataType.game_calories));
             }
+            yield break;
         }
 
 
@@ -294,21 +295,28 @@ namespace YUR.SDK.Unity.UserManagement
             string reponse;
             if (dataType == YUR_CurrentUser.DataType.all || dataType == YUR_CurrentUser.DataType.biometrics)
             {
-                yield return reponse = Systems.Interops.User_AccountAccess.Set_Biometric_Data(Utilities.YUR_Conversions.ConvertObjectToString(CurrentUser.Data_Biometrics), CurrentUser.loginCredentials.IDtoken, out success);
+                string objectAsString;
+                yield return objectAsString = Utilities.YUR_Conversions.ConvertObjectToString(CurrentUser.Data_Biometrics);
+                yield return reponse = Systems.Interops.User_AccountAccess.Set_Biometric_Data(objectAsString, CurrentUser.loginCredentials.IDtoken, out success);
                 if (!success)
                     yield return StartCoroutine(Refresh_Token_Set_Data(YUR_CurrentUser.DataType.biometrics));
             }
 
             if (dataType == YUR_CurrentUser.DataType.all || dataType == YUR_CurrentUser.DataType.game_calories)
             {
-                yield return reponse = Systems.Interops.User_AccountAccess.Set_Game_Data(Utilities.YUR_Conversions.ConvertObjectToString(CurrentUser.Data_Current_Game), CurrentUser.loginCredentials.IDtoken, out success);
+
+                string objectAsString;
+                yield return objectAsString = Utilities.YUR_Conversions.ConvertObjectToString(CurrentUser.Data_Current_Game);
+                yield return reponse = Systems.Interops.User_AccountAccess.Set_Game_Data(objectAsString, CurrentUser.loginCredentials.IDtoken, out success);
                 if (!success)
                     yield return StartCoroutine(Refresh_Token_Set_Data(YUR_CurrentUser.DataType.game_calories));
             }
 
             if (dataType == YUR_CurrentUser.DataType.all || dataType == YUR_CurrentUser.DataType.general_calories)
             {
-                yield return reponse = Systems.Interops.User_AccountAccess.Set_Biometric_Data(Utilities.YUR_Conversions.ConvertObjectToString(CurrentUser.Data_Biometrics), CurrentUser.loginCredentials.IDtoken, out success);
+                string objectAsString;
+                yield return objectAsString = Utilities.YUR_Conversions.ConvertObjectToString(CurrentUser.Data_Biometrics);
+                yield return reponse = Systems.Interops.User_AccountAccess.Set_Biometric_Data(objectAsString, CurrentUser.loginCredentials.IDtoken, out success);
                 if (!success)
                     yield return StartCoroutine(Refresh_Token_Set_Data(YUR_CurrentUser.DataType.general_calories));
             }

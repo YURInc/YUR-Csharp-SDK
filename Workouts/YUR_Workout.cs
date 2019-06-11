@@ -89,7 +89,9 @@ namespace YUR.SDK.Unity.Workouts
             YUR_Log.Log("[Workout | End] Ending Workout" +
                 "\n Calories Burned: " + calories +
                 "\n Identifier: " + identifier +
-                "\n GameID: " + gameID);
+                "\n GameID: " + gameID +
+                "\n Start: " + start +
+                "\n End: " + end);
             return;
         }
 
@@ -114,9 +116,13 @@ namespace YUR.SDK.Unity.Workouts
 
         internal IEnumerator UploadWorkout()
         {
+
+            yield return new WaitForSeconds(1);
             YUR_Log.Server_Log("Uploading workout");
             string response;
-            yield return response = Systems.Interops.Workouts.UploadWorkout(Utilities.YUR_Conversions.ConvertObjectToString(this), YUR_Main.main.User_Manager.CurrentUser.loginCredentials.IDtoken);
+            string objectasstring;
+            yield return objectasstring = Utilities.YUR_Conversions.ConvertObjectToString(this);
+            yield return response = Systems.Interops.Workouts.UploadWorkout(objectasstring, YUR_Main.main.User_Manager.CurrentUser.loginCredentials.IDtoken);
             if (response.StartsWith("--1"))
             {
                 Failure?.Invoke(response);

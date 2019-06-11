@@ -123,7 +123,7 @@ namespace YUR.SDK.Unity
         private string YUR_UserManager_Successful_Login(string response)
         {
             YUR_Log.Log("User Successfully Logged In");
-            calorieCounter = Tracking.Calories.CalorieCounter.CalorieDisplayObject.AddComponent<CalorieCounter>();
+            calorieCounter = Tracking.Calories.calories.CalorieDisplayObject.AddComponent<CalorieCounter>();
             calorieCounter.Completed += CalorieCounter_Completed;
 
             return response;
@@ -704,7 +704,6 @@ namespace YUR.SDK.Unity
         public float YURGUIScale;
 
         public GameObject CalorieDisplay;
-
         public Vector3 CalorieDisplayPositionOffset;
         public Vector3 CalorieDisplayRotationOffset;
 

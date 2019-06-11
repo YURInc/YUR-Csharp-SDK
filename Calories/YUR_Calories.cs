@@ -5,6 +5,8 @@ namespace YUR.SDK.Unity.Systems.Tracking
 {
     public class Calories : MonoBehaviour
     {
+        
+
         public static float Biometric_Adjustment(UserData.Biometrics.Sexs sex, float height_centimeters, float weight_kilograms, int age)
         {
             return CalorieTracking.BioAdjust((int)sex, height_centimeters, weight_kilograms, age);
@@ -41,16 +43,30 @@ namespace YUR.SDK.Unity.Systems.Tracking
 
 namespace YUR.SDK.Unity.Tracking
 {
-    public class Calories : MonoBehaviour
+    public class Calories : Utilities.ChildGameObjectImmortal
     {
         public delegate void CalorieStatus();
         public static event CalorieStatus StartCounting;
         public static event CalorieStatus EndCounting;
 
-        public static Calories CalorieCounter;
+        public void OnDestroy()
+        {
+            Debug.Log("Calories Object destroyed with " + transform.childCount + " children");
+        }
+
+        public static Calories calories;
         public float totalCaloriesBurnt = 0;
         public GameObject CalorieDisplayObject;
-
+        public override void OnParentToBeDestroyed()
+        {
+         
+        base.OnParentToBeDestroyed();
+            Debug.Break();
+            Debug.Log("Moving away from parent object");
+            this.transform.SetParent(YUR.Yur.CalorieDisplay.transform);
+            DontDestroyOnLoad(CalorieCounter.calorieCounter);
+            Debug.Log("Object is no longer in danger");
+        }
         public static void StartCalorieCounter()
         {
             StartCounting?.Invoke();           
@@ -60,17 +76,17 @@ namespace YUR.SDK.Unity.Tracking
 
         void Awake()
         {
-            CalorieCounter = this;
+            calories = this;
             CalorieDisplayObject = new GameObject("YUR Calorie Canvas");
 
             DontDestroyOnLoad(CalorieDisplayObject);
-            DontDestroyOnLoad(CalorieCounter);
+            DontDestroyOnLoad(calories);
         }
 
         public static float EndCalorieCounter()
         {
             EndCounting?.Invoke();
-            return CalorieCounter.totalCaloriesBurnt;
+            return calories.totalCaloriesBurnt;
         }
 
     }

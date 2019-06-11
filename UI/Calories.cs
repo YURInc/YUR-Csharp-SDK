@@ -45,12 +45,17 @@ namespace YUR.SDK.Unity
         //    CalorieCountDisplay.fontSize = Counter_FontSize;
         //    CalorieCountDisplay.color = Counter_Color;
         //}
+        public void OnDestroy()
+        {
+            Debug.Log("CalorieCounter destroyed with " + transform.childCount + " children");
+            Debug.Break();
+        }
 
         public void Awake()
         {
             if(calorieCounter == null)
                 calorieCounter = this;
-            DontDestroyOnLoad(calorieCounter);
+            
             Calories.StartCounting += StartCounting;
             Calories.EndCounting += StopCounting;
             Debug.Log("Calorie Counter is initialized");
@@ -59,9 +64,9 @@ namespace YUR.SDK.Unity
             {
                 /// Create UI Asset
                 if(CaloriesDisplay == null)
-                    CaloriesDisplay = UI.CreateUI.CreateCanvas(Calories.CalorieCounter.CalorieDisplayObject);
+                    CaloriesDisplay = UI.CreateUI.CreateCanvas(Calories.calories.CalorieDisplayObject);
                 if(CalorieCountDisplay == null)
-                    CalorieCountDisplay = UI.CreateUI.CreateTMP_Text(CaloriesDisplay, "0", Calories.CalorieCounter.CalorieDisplayObject.transform.position, new Vector2(100, 50));
+                    CalorieCountDisplay = UI.CreateUI.CreateTMP_Text(CaloriesDisplay, "0", Calories.calories.CalorieDisplayObject.transform.position, new Vector2(100, 50));
 
                 Vector3 labelPosition = CalorieCountDisplay.transform.position;
                 labelPosition.y += 4;
@@ -72,28 +77,27 @@ namespace YUR.SDK.Unity
                 Vector3 YUR_Direction = Vector3.zero;
                 if (YUR.Yur.CalorieDisplay)
                 {
-                    DontDestroyOnLoad(YUR.Yur.CalorieDisplay);
                     Debug.Log("Calorie Display found, setting position and rotation!");
-                    Calories.CalorieCounter.transform.SetParent(YUR.Yur.CalorieDisplay.transform);
-                    Calories.CalorieCounter.transform.localPosition = YUR.Yur.CalorieDisplayPositionOffset;
-                    Calories.CalorieCounter.transform.localEulerAngles = YUR.Yur.CalorieDisplayRotationOffset;
-                    Calories.CalorieCounter.CalorieDisplayObject.transform.SetParent(Calories.CalorieCounter.transform);
-                    Calories.CalorieCounter.CalorieDisplayObject.transform.localPosition = Vector3.zero;
-                    Calories.CalorieCounter.CalorieDisplayObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+                    Calories.calories.transform.SetParent(YUR.Yur.CalorieDisplay.transform);
+                    Calories.calories.transform.localPosition = YUR.Yur.CalorieDisplayPositionOffset;
+                    Calories.calories.transform.localEulerAngles = YUR.Yur.CalorieDisplayRotationOffset;
+                    Calories.calories.CalorieDisplayObject.transform.SetParent(Calories.calories.transform);
+                    Calories.calories.CalorieDisplayObject.transform.localPosition = Vector3.zero;
+                    Calories.calories.CalorieDisplayObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
                 }
                 else
                 {
-                    DontDestroyOnLoad(YUR.Yur.CalorieDisplay);
 
                     YUR_Position = YUR.Yur.Camera.transform.position;
                     YUR_Direction = YUR.Yur.Camera.transform.forward;
                     YUR_Direction.y = 0;
 
-                    Calories.CalorieCounter.CalorieDisplayObject.transform.SetPositionAndRotation(
+                    Calories.calories.CalorieDisplayObject.transform.SetPositionAndRotation(
                         new Vector3(YUR_Position.x + (YUR_Direction.x * 5),
                         YUR_Position.y, YUR_Position.z + (YUR_Direction.z * 5)),
                         Quaternion.LookRotation(YUR_Direction));
                 }
+
                 gameObject.SetActive(false);
             }
         }
@@ -125,39 +129,38 @@ namespace YUR.SDK.Unity
             }
         }
 
+        public GameObject newgobject;
+
+        void Update()
+        {
+            if(newgobject != null)
+            {
+                YUR.Yur.CalorieDisplay.transform.SetPositionAndRotation(newgobject.transform.position, newgobject.transform.rotation);
+            }
+        }
+
         public IEnumerator WaitForOVRManager(bool Start)
         {
             if (Start)
             {
+                // TODO !!!! Steam version!?
                 while (!UnityOculusLibrary.OculusHelpers.IsOVRManager())
                 {
                     for (int i = 0; i < 20; i++)
                     {
                         yield return new WaitForFixedUpdate();
-
                     }
-                    
                 }
-                Calories.CalorieCounter.gameObject.transform.SetParent(UnityOculusLibrary.OculusHelpers.GetPlayer().transform);
+
+                newgobject = new GameObject("[YUR] Reference Object");
+                var ParentImmortal = newgobject.AddComponent<Utilities.ParentGameObjectImmortality>();
+                newgobject.transform.SetParent(UnityOculusLibrary.OculusHelpers.GetPlayer().transform);
+               
                 PositionDisplay();
                 yield break;
             }
-            else
-            {
-                while (!UnityOculusLibrary.OculusHelpers.IsOVRManager())
-                {
-                    for (int i = 0; i < 20; i++)
-                    {
-                        yield return new WaitForFixedUpdate();
-
-                    }
-                    
-                }
-                Calories.CalorieCounter.gameObject.transform.SetParent(YUR.Yur.YURGameObject.transform);
-                gameObject.SetActive(false);
-                yield break;
-            }
         }
+
 
         public void PositionDisplay()
         {
@@ -166,8 +169,8 @@ namespace YUR.SDK.Unity
             if (YUR.Yur.CalorieDisplay)
             {
                 Debug.Log("Calorie Display is set transform");
-                Calories.CalorieCounter.transform.localPosition = YUR.Yur.CalorieDisplayPositionOffset;
-                Calories.CalorieCounter.transform.localEulerAngles = YUR.Yur.CalorieDisplayRotationOffset;
+                Calories.calories.transform.localPosition = YUR.Yur.CalorieDisplayPositionOffset;
+                Calories.calories.transform.localEulerAngles = YUR.Yur.CalorieDisplayRotationOffset;
             }
             else
             {
@@ -175,7 +178,7 @@ namespace YUR.SDK.Unity
                 YUR_Direction = YUR.Yur.Camera.transform.forward;
                 YUR_Direction.y = 0;
 
-                Calories.CalorieCounter.CalorieDisplayObject.transform.SetPositionAndRotation(
+                Calories.calories.CalorieDisplayObject.transform.SetPositionAndRotation(
                     new Vector3(YUR_Position.x + (YUR_Direction.x * 5),
                     YUR_Position.y, YUR_Position.z + (YUR_Direction.z * 5)),
                     Quaternion.LookRotation(YUR_Direction));
@@ -212,20 +215,11 @@ namespace YUR.SDK.Unity
             BioAdjustment = Systems.Tracking.Calories.Biometric_Adjustment(Sexs, Height, WeightInKilograms, UserManagement.YUR_UserManager.YUR_Users.CurrentUser.Data_Biometrics.Age);
 
             CalorieCountDisplay.text = "0";
-            Calories.CalorieCounter.totalCaloriesBurnt = 0;
+            Calories.calories.totalCaloriesBurnt = 0;
             gameObject.SetActive(true);
             if (YUR.Yur.platform == VRUiKits.Utils.VRPlatform.OCULUS)
             {
-                if (UnityOculusLibrary.OculusHelpers.IsOVRManager())
-                {
-
-                    Calories.CalorieCounter.gameObject.transform.SetParent(UnityOculusLibrary.OculusHelpers.GetPlayer().transform);
-                    PositionDisplay();
-                }
-                else
-                {
-                    StartCoroutine(WaitForOVRManager(true));
-                }
+                 StartCoroutine(WaitForOVRManager(true));
             }
 
             Debug.Log("Starting to count calories");
@@ -235,21 +229,15 @@ namespace YUR.SDK.Unity
             Completed?.Invoke();
         }
 
-        void OnDisable()
-        {
-            DontDestroyOnLoad(this);
-            DontDestroyOnLoad(Calories.CalorieCounter);
-        }
-
         /// <summary>
         /// Stop Counting all calories and return total Calories Burned
         /// </summary>
         /// <returns></returns>
         public void StopCounting()
         {
-            DontDestroyOnLoad(Calories.CalorieCounter);
             Debug.Log("Stopping calorie counter!");
-            StopAllCoroutines();
+            isSetup = false;
+            StopCoroutine(CountCoroutine());
             
         }
 
@@ -268,7 +256,7 @@ namespace YUR.SDK.Unity
         {
             while (true)
             {
-                YUR_Log.Log("Calories: " + Calories.CalorieCounter.totalCaloriesBurnt);
+                //YUR_Log.Log("Calories: " + Calories.calories.totalCaloriesBurnt);
                 IsRunning = true;
                 foreach (XRNodeState ns in nodeStates)
                 {
@@ -290,8 +278,8 @@ namespace YUR.SDK.Unity
 
                 if (lastBurn > 0)
                 {
-                    Calories.CalorieCounter.totalCaloriesBurnt += lastBurn;
-                    CalorieCountDisplay.text = Calories.CalorieCounter.totalCaloriesBurnt.ToString(decimalPlace);
+                    Calories.calories.totalCaloriesBurnt += lastBurn;
+                    CalorieCountDisplay.text = Calories.calories.totalCaloriesBurnt.ToString(decimalPlace);
                 }
 
                 for (float duration = 1; duration > 0; duration--)

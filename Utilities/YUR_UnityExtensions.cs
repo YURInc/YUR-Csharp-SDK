@@ -21,4 +21,27 @@ namespace YUR.SDK.Unity.Utilities
             return gameObject == null && !ReferenceEquals(gameObject, null);
         }
     }
+
+    public class ParentGameObjectImmortality : MonoBehaviour
+    {
+        public List<GameObject> ChildrenToKeep = new List<GameObject>();
+
+        void OnDestroy()
+        {
+            foreach(var child in ChildrenToKeep)
+            {
+                child.GetComponent<ChildGameObjectImmortal>().OnParentToBeDestroyed();
+            }
+        }
+
+    }
+
+    public class ChildGameObjectImmortal : MonoBehaviour
+    {
+        public virtual void OnParentToBeDestroyed()
+        {
+            Debug.Log("Parent object is being destroy", this);
+
+        }
+    }
 }

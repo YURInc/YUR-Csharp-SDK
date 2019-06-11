@@ -37,8 +37,11 @@ namespace YUR.SDK.Unity.Workouts
                 YUR_Log.Warning("There is no workout currently in progress to end!");
                 yield break;
             }
+
+            workout.workoutInProgress = false;
             int Calories;
-            yield return Calories = (int)Mathf.Floor(Tracking.Calories.EndCalorieCounter());            
+            yield return Calories = (int)Mathf.Floor(Tracking.Calories.EndCalorieCounter());
+            yield return new WaitForFixedUpdate();
             YUR_Main.main.User_Manager.CurrentUser.Data_Current_Game.Calories_All += Calories;
             YUR_Main.main.User_Manager.CurrentUser.Data_Current_Game.Calories_Weekly += Calories;
             YUR_Main.main.User_Manager.CurrentUser.Data_Current_Game.Calories_Today += Calories;
@@ -46,20 +49,30 @@ namespace YUR.SDK.Unity.Workouts
             YUR_Main.main.User_Manager.CurrentUser.Data_General_Calories.Calories_Weekly += Calories;
             YUR_Main.main.User_Manager.CurrentUser.Data_General_Calories.Calories_Today += Calories;
             YUR_Main.main.User_Manager.CurrentUser.Data_Current_Session_Calories += Calories;
-            YUR_Main.main.User_Manager.CurrentUser.SaveAll();
+           
 
-            EndWorkout?.Invoke();
+            
             System.TimeSpan t;
             long duration;
             yield return t = System.DateTime.UtcNow - new System.DateTime(1970, 1, 1);
             yield return workout.End_Time = (long)(t.TotalSeconds - workout.Time_Duration_Paused);
-
             yield return duration = (workout.End_Time - workout.Start_Time);
+
             YUR_Main.main.User_Manager.CurrentUser.Data_Current_Game.Time_Played += duration;
             YUR_Main.main.User_Manager.CurrentUser.Data_General_Calories.Time_played += duration;
+            YUR_Main.main.User_Manager.CurrentUser.Data_Current_Game.Last_Played = workout.End_Time;
+            YUR_Main.main.User_Manager.CurrentUser.Data_General_Calories.Last_played = workout.End_Time;
 
             yield return workout.Calories += (int)(Calories - workout.Paused_Calories);
             yield return workout.Identifier = Identifier;
+
+
+            YUR_Main.main.User_Manager.CurrentUser.SaveAll();
+
+            EndWorkout?.Invoke();
+
+            yield return new WaitForSeconds(4);
+
             StartCoroutine(workout.UploadWorkout());
             yield break;
 
